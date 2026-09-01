@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -119,6 +119,24 @@
     </Compile>
     <EmbeddedResource Include="frmCustomerDashboard.resx">
       <DependentUpon>frmCustomerDashboard.cs</DependentUpon>
+    </EmbeddedResource>
+    <Compile Include="frmManageShopProfile.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmManageShopProfile.Designer.cs">
+      <DependentUpon>frmManageShopProfile.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="frmManageShopProfile.resx">
+      <DependentUpon>frmManageShopProfile.cs</DependentUpon>
+    </EmbeddedResource>
+    <Compile Include="frmManageProducts.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmManageProducts.Designer.cs">
+      <DependentUpon>frmManageProducts.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="frmManageProducts.resx">
+      <DependentUpon>frmManageProducts.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
