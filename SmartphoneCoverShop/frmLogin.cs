@@ -17,10 +17,10 @@ namespace SmartphoneCoverShop
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
-            if (txtUsername.Text == "" || txtPassword.Text == "")
+            if (txtEmail.Text == "" || txtPassword.Text == "")
             {
                 MessageBox.Show(
-                    "Please enter your Email/Username and Password.",
+                    "Please enter your Email and Password.",
                     "Login Failed",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
@@ -32,11 +32,11 @@ namespace SmartphoneCoverShop
                 con.Open();
 
                 string login = "SELECT UserID, FullName, Email, UserType, [Status] FROM Users " +
-                               "WHERE (LOWER(Email) = LOWER(@username) OR LOWER(FullName) = LOWER(@username)) AND [Password] = @password";
+                               "WHERE (LOWER(Email) = LOWER(@email) OR LOWER(FullName) = LOWER(@email)) AND [Password] = @password";
 
                 SqlCommand cmd = new SqlCommand(login, con);
 
-                cmd.Parameters.AddWithValue("@username", txtUsername.Text.Trim());
+                cmd.Parameters.AddWithValue("@email", txtEmail.Text.Trim());
                 cmd.Parameters.AddWithValue("@password", txtPassword.Text);
 
                 SqlDataReader reader = cmd.ExecuteReader();
@@ -74,14 +74,14 @@ namespace SmartphoneCoverShop
                 {
                     con.Close();
                     MessageBox.Show(
-                        "Username/Email and Password are incorrect. Please try again.",
+                        "Email and Password are incorrect. Please try again.",
                         "Login Failed",
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Error);
 
-                    txtUsername.Text = "";
+                    txtEmail.Text = "";
                     txtPassword.Text = "";
-                    txtUsername.Focus();
+                    txtEmail.Focus();
                 }
             }
             catch (Exception ex)
@@ -113,9 +113,9 @@ namespace SmartphoneCoverShop
 
         private void btnClear_Click(object sender, EventArgs e)
         {
-            txtUsername.Text = "";
+            txtEmail.Text = "";
             txtPassword.Text = "";
-            txtUsername.Focus();
+            txtEmail.Focus();
         }
 
         private void clickRegister_Click(object sender, EventArgs e)
@@ -135,5 +135,7 @@ namespace SmartphoneCoverShop
         }
     }
 }
+
+
 
 
