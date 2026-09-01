@@ -37,7 +37,6 @@ namespace SmartphoneCoverShop
 
         public DataAccess()
         {
-            // Use the connection string pattern from the project
             this.Sqlcon = new SqlConnection(ConfigurationManager.ConnectionStrings["MyConnection"].ConnectionString);
             Sqlcon.Open();
         }

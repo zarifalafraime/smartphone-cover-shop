@@ -36,7 +36,7 @@ namespace SmartphoneCoverShop
             this.checkbxShowPas = new System.Windows.Forms.CheckBox();
             this.txtPassword = new System.Windows.Forms.TextBox();
             this.Password = new System.Windows.Forms.Label();
-            this.txtUsername = new System.Windows.Forms.TextBox();
+            this.txtEmail = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.btnClose = new System.Windows.Forms.Label();
@@ -126,15 +126,15 @@ namespace SmartphoneCoverShop
             this.Password.TabIndex = 8;
             this.Password.Text = "Password";
             // 
-            // txtUsername
+            // txtEmail
             // 
-            this.txtUsername.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(231)))), ((int)(((byte)(233)))));
-            this.txtUsername.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtUsername.Location = new System.Drawing.Point(34, 145);
-            this.txtUsername.Multiline = true;
-            this.txtUsername.Name = "txtUsername";
-            this.txtUsername.Size = new System.Drawing.Size(216, 28);
-            this.txtUsername.TabIndex = 12;
+            this.txtEmail.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(231)))), ((int)(((byte)(233)))));
+            this.txtEmail.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtEmail.Location = new System.Drawing.Point(34, 145);
+            this.txtEmail.Multiline = true;
+            this.txtEmail.Name = "txtEmail";
+            this.txtEmail.Size = new System.Drawing.Size(216, 28);
+            this.txtEmail.TabIndex = 12;
             // 
             // label2
             // 
@@ -143,7 +143,7 @@ namespace SmartphoneCoverShop
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(69, 17);
             this.label2.TabIndex = 9;
-            this.label2.Text = "Username";
+            this.label2.Text = "Email";
             // 
             // label1
             // 
@@ -182,7 +182,7 @@ namespace SmartphoneCoverShop
             this.Controls.Add(this.checkbxShowPas);
             this.Controls.Add(this.txtPassword);
             this.Controls.Add(this.Password);
-            this.Controls.Add(this.txtUsername);
+            this.Controls.Add(this.txtEmail);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Font = new System.Drawing.Font("Nirmala UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -207,9 +207,11 @@ namespace SmartphoneCoverShop
         private System.Windows.Forms.CheckBox checkbxShowPas;
         private System.Windows.Forms.TextBox txtPassword;
         private System.Windows.Forms.Label Password;
-        private System.Windows.Forms.TextBox txtUsername;
+        private System.Windows.Forms.TextBox txtEmail;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label btnClose;
     }
 }
+
+
