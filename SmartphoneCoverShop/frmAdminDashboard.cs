@@ -22,24 +22,28 @@ namespace SmartphoneCoverShop
             LoggedInUserType = userType;
         }
 
+        private void frmDashboard_Load(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(LoggedInFullName))
+            {
+                lblWelcome.Text = "Welcome, " + LoggedInFullName + " (Shop Owner)";
+            }
+        }
+
         private void btnLogout_Click(object sender, EventArgs e)
         {
             new frmLogin().Show();
             this.Close();
         }
 
-        private void frmDashboard_Load(object sender, EventArgs e)
+        private void btnManageProfile_Click(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(LoggedInFullName))
-            {
-                string roleDisplay = LoggedInUserType?.ToUpper();
-                lblWelcome.Text = "👤 " + LoggedInFullName + " [" + roleDisplay + "]";
-            }
+            new frmManageShopProfile(LoggedInUserId).ShowDialog();
         }
 
-        private void btnClose_Click(object sender, EventArgs e)
+        private void btnManageProducts_Click(object sender, EventArgs e)
         {
-            Application.Exit();
+            new frmManageProducts(LoggedInUserId).ShowDialog();
         }
     }
 }
