@@ -52,18 +52,21 @@ namespace SmartphoneCoverShop
                     }
 
                     string selectedRole = "customer";
+                    int initialStatus = 1; // 1 = Approved (Default for customers)
+
                     if (cmbUserType.SelectedItem != null)
                     {
                         string val = cmbUserType.SelectedItem.ToString().ToLower();
                         if (val.Contains("admin") || val.Contains("shop"))
                         {
                             selectedRole = "admin";
+                            initialStatus = 2; // 2 = Pending / No Status
                         }
                     }
 
                     string register =
                         "INSERT INTO Users (FullName, Email, [Password], UserType, Phone, CreatedAt, [Status]) " +
-                        "VALUES (@FullName, @Email, @Password, @UserType, @Phone, GETDATE(), 1)";
+                        "VALUES (@FullName, @Email, @Password, @UserType, @Phone, GETDATE(), @Status)";
 
                     SqlCommand cmd = new SqlCommand(register, con);
 
@@ -72,6 +75,7 @@ namespace SmartphoneCoverShop
                     cmd.Parameters.AddWithValue("@Password", txtPassword.Text);
                     cmd.Parameters.AddWithValue("@UserType", selectedRole);
                     cmd.Parameters.AddWithValue("@Phone", string.IsNullOrEmpty(txtPhone.Text) ? (object)DBNull.Value : txtPhone.Text.Trim());
+                    cmd.Parameters.AddWithValue("@Status", initialStatus);
 
                     cmd.ExecuteNonQuery();
 

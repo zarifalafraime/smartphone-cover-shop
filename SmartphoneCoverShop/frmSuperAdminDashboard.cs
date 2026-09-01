@@ -41,5 +41,17 @@ namespace SmartphoneCoverShop
         {
             Application.Exit();
         }
+
+        private void btnManageShopOwners_Click(object sender, EventArgs e)
+        {
+            frmManageShopOwners manageForm = new frmManageShopOwners();
+            manageForm.ShowDialog();
+        }
+
+        private void btnManageCategories_Click(object sender, EventArgs e)
+        {
+            frmManageCategories categoriesForm = new frmManageCategories();
+            categoriesForm.ShowDialog();
+        }
     }
 }
