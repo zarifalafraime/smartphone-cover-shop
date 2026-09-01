@@ -1,6 +1,0 @@
-
-USE master;
-ALTER DATABASE SmartphoneCoverShopDB SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
-DROP DATABASE SmartphoneCoverShopDB;
-CREATE DATABASE SmartphoneCoverShopDB;
-
