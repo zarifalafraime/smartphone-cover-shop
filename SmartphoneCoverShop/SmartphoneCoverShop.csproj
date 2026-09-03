@@ -95,6 +95,12 @@
     <EmbeddedResource Include="frmSuperAdminDashboard.resx">
       <DependentUpon>frmSuperAdminDashboard.cs</DependentUpon>
     </EmbeddedResource>
+    <Compile Include="frmManageUsers.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmManageReviews.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmManageCategories.cs">
       <SubType>Form</SubType>
     </Compile>
