@@ -2,15 +2,8 @@ namespace SmartphoneCoverShop
 {
     partial class frmCustomerDashboard
     {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -22,125 +15,129 @@ namespace SmartphoneCoverShop
 
         #region Windows Form Designer generated code
 
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
         private void InitializeComponent()
         {
-            this.label1 = new System.Windows.Forms.Label();
-            this.btnLogout = new System.Windows.Forms.Button();
+            this.lblTitle = new System.Windows.Forms.Label();
             this.lblWelcome = new System.Windows.Forms.Label();
-            this.btnClose = new System.Windows.Forms.Label();
-            this.pnlTop = new System.Windows.Forms.Panel();
-            this.pnlContent = new System.Windows.Forms.Panel();
-            this.pnlTop.SuspendLayout();
+            this.btnBrowseProducts = new System.Windows.Forms.Button();
+            this.btnMyCart = new System.Windows.Forms.Button();
+            this.btnLogout = new System.Windows.Forms.Button();
             this.SuspendLayout();
+            
             // 
-            // pnlTop
+            // lblTitle
             // 
-            this.pnlTop.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(117)))), ((int)(((byte)(86)))), ((int)(((byte)(174)))));
-            this.pnlTop.Controls.Add(this.btnClose);
-            this.pnlTop.Controls.Add(this.lblWelcome);
-            this.pnlTop.Controls.Add(this.btnLogout);
-            this.pnlTop.Controls.Add(this.label1);
-            this.pnlTop.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnlTop.Location = new System.Drawing.Point(0, 0);
-            this.pnlTop.Name = "pnlTop";
-            this.pnlTop.Size = new System.Drawing.Size(900, 60);
-            this.pnlTop.TabIndex = 0;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Nirmala UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(15, 14);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(252, 30);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Smartphone Cover Shop";
+            this.lblTitle.AutoSize = true;
+            this.lblTitle.Font = new System.Drawing.Font("Segoe UI", 20F, System.Drawing.FontStyle.Bold);
+            this.lblTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(116)))), ((int)(((byte)(86)))), ((int)(((byte)(174)))));
+            this.lblTitle.Location = new System.Drawing.Point(30, 30);
+            this.lblTitle.Name = "lblTitle";
+            this.lblTitle.Size = new System.Drawing.Size(288, 37);
+            this.lblTitle.TabIndex = 0;
+            this.lblTitle.Text = "Customer Dashboard";
+            
             // 
             // lblWelcome
             // 
-            this.lblWelcome.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblWelcome.AutoSize = true;
-            this.lblWelcome.Font = new System.Drawing.Font("Nirmala UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblWelcome.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.lblWelcome.Location = new System.Drawing.Point(520, 21);
+            this.lblWelcome.Font = new System.Drawing.Font("Segoe UI", 12F);
+            this.lblWelcome.Location = new System.Drawing.Point(35, 75);
             this.lblWelcome.Name = "lblWelcome";
-            this.lblWelcome.Size = new System.Drawing.Size(120, 17);
+            this.lblWelcome.Size = new System.Drawing.Size(115, 21);
             this.lblWelcome.TabIndex = 1;
             this.lblWelcome.Text = "Welcome, User";
+            
+            // 
+            // btnBrowseProducts
+            // 
+            this.btnBrowseProducts.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(116)))), ((int)(((byte)(86)))), ((int)(((byte)(174)))));
+            this.btnBrowseProducts.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnBrowseProducts.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+            this.btnBrowseProducts.ForeColor = System.Drawing.Color.White;
+            this.btnBrowseProducts.Location = new System.Drawing.Point(40, 130);
+            this.btnBrowseProducts.Name = "btnBrowseProducts";
+            this.btnBrowseProducts.Size = new System.Drawing.Size(200, 60);
+            this.btnBrowseProducts.TabIndex = 2;
+            this.btnBrowseProducts.Text = "Browse Products";
+            this.btnBrowseProducts.UseVisualStyleBackColor = false;
+            this.btnBrowseProducts.Click += new System.EventHandler(this.btnBrowseProducts_Click);
+            
+            // 
+            // btnMyCart
+            // 
+            this.btnMyCart.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(116)))), ((int)(((byte)(86)))), ((int)(((byte)(174)))));
+            this.btnMyCart.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnMyCart.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+            this.btnMyCart.ForeColor = System.Drawing.Color.White;
+            this.btnMyCart.Location = new System.Drawing.Point(260, 130);
+            this.btnMyCart.Name = "btnMyCart";
+            this.btnMyCart.Size = new System.Drawing.Size(150, 60);
+            this.btnMyCart.TabIndex = 3;
+            this.btnMyCart.Text = "My Cart";
+            this.btnMyCart.UseVisualStyleBackColor = false;
+            this.btnMyCart.Click += new System.EventHandler(this.btnMyCart_Click);
+            
+            // 
+            // btnOrderHistory
+            // 
+            this.btnOrderHistory = new System.Windows.Forms.Button();
+            this.btnOrderHistory.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(116)))), ((int)(((byte)(86)))), ((int)(((byte)(174)))));
+            this.btnOrderHistory.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnOrderHistory.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+            this.btnOrderHistory.ForeColor = System.Drawing.Color.White;
+            this.btnOrderHistory.Location = new System.Drawing.Point(430, 130);
+            this.btnOrderHistory.Name = "btnOrderHistory";
+            this.btnOrderHistory.Size = new System.Drawing.Size(150, 60);
+            this.btnOrderHistory.TabIndex = 5;
+            this.btnOrderHistory.Text = "Order History";
+            this.btnOrderHistory.UseVisualStyleBackColor = false;
+            this.btnOrderHistory.Click += new System.EventHandler(this.btnOrderHistory_Click);
+            
             // 
             // btnLogout
             // 
-            this.btnLogout.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnLogout.BackColor = System.Drawing.Color.White;
-            this.btnLogout.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnLogout.FlatAppearance.BorderSize = 0;
             this.btnLogout.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnLogout.Font = new System.Drawing.Font("Nirmala UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnLogout.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(117)))), ((int)(((byte)(86)))), ((int)(((byte)(174)))));
-            this.btnLogout.Location = new System.Drawing.Point(760, 14);
+            this.btnLogout.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            this.btnLogout.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(116)))), ((int)(((byte)(86)))), ((int)(((byte)(174)))));
+            this.btnLogout.Location = new System.Drawing.Point(40, 220);
             this.btnLogout.Name = "btnLogout";
-            this.btnLogout.Size = new System.Drawing.Size(85, 32);
-            this.btnLogout.TabIndex = 2;
-            this.btnLogout.Text = "LOGOUT";
+            this.btnLogout.Size = new System.Drawing.Size(100, 35);
+            this.btnLogout.TabIndex = 4;
+            this.btnLogout.Text = "Log Out";
             this.btnLogout.UseVisualStyleBackColor = false;
             this.btnLogout.Click += new System.EventHandler(this.btnLogout_Click);
+            
             // 
-            // btnClose
+            // frmCustomerDashboard
             // 
-            this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnClose.AutoSize = true;
-            this.btnClose.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnClose.Font = new System.Drawing.Font("Nirmala UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnClose.ForeColor = System.Drawing.Color.White;
-            this.btnClose.Location = new System.Drawing.Point(865, 18);
-            this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(21, 21);
-            this.btnClose.TabIndex = 3;
-            this.btnClose.Text = "✕";
-            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
-            // 
-            // pnlContent
-            // 
-            this.pnlContent.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(249)))), ((int)(((byte)(252)))));
-            this.pnlContent.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlContent.Location = new System.Drawing.Point(0, 60);
-            this.pnlContent.Name = "pnlContent";
-            this.pnlContent.Size = new System.Drawing.Size(900, 500);
-            this.pnlContent.TabIndex = 1;
-            // 
-            // frmDashboard
-            // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(900, 560);
-            this.Controls.Add(this.pnlContent);
-            this.Controls.Add(this.pnlTop);
-            this.Font = new System.Drawing.Font("Nirmala UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Margin = new System.Windows.Forms.Padding(4);
-            this.Name = "frmDashboard";
+            this.ClientSize = new System.Drawing.Size(600, 300);
+            this.Controls.Add(this.btnLogout);
+            this.Controls.Add(this.btnOrderHistory);
+            this.Controls.Add(this.btnMyCart);
+            this.Controls.Add(this.btnBrowseProducts);
+            this.Controls.Add(this.lblWelcome);
+            this.Controls.Add(this.lblTitle);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Name = "frmCustomerDashboard";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Dashboard";
+            this.Text = "Customer Dashboard";
             this.Load += new System.EventHandler(this.frmDashboard_Load);
-            this.pnlTop.ResumeLayout(false);
-            this.pnlTop.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.Panel pnlTop;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblTitle;
         private System.Windows.Forms.Label lblWelcome;
+        private System.Windows.Forms.Button btnBrowseProducts;
+        private System.Windows.Forms.Button btnMyCart;
+        private System.Windows.Forms.Button btnOrderHistory;
         private System.Windows.Forms.Button btnLogout;
-        private System.Windows.Forms.Label btnClose;
-        private System.Windows.Forms.Panel pnlContent;
     }
 }
