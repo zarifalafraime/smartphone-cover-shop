@@ -151,7 +151,7 @@ namespace SmartphoneCoverShop
         private void LoadCategories()
         {
             DataAccess da = new DataAccess();
-            DataTable dt = da.ExecuteQueryTable("SELECT CategoryID, CategoryName FROM Categories WHERE Status = 1");
+            DataTable dt = da.ExecuteQueryTable("SELECT CategoryID, CategoryName FROM Categories");
             DataRow allRow = dt.NewRow();
             allRow["CategoryID"] = 0;
             allRow["CategoryName"] = "All Categories";
@@ -163,7 +163,7 @@ namespace SmartphoneCoverShop
 
         private void LoadProducts(string search = "", int categoryId = 0)
         {
-            string query = "SELECT ProductID, ProductName, Price, StockQuantity, Description FROM Products WHERE Status = 1";
+            string query = "SELECT ProductID, ProductName, Price, StockQuantity, Description FROM Products WHERE 1=1";
             if (!string.IsNullOrEmpty(search))
             {
                 query += " AND ProductName LIKE '%" + search.Replace("'", "''") + "%'";
@@ -192,7 +192,7 @@ namespace SmartphoneCoverShop
             if (dgvProducts.SelectedRows.Count > 0)
             {
                 int productId = Convert.ToInt32(dgvProducts.SelectedRows[0].Cells["ProductID"].Value);
-                string query = "INSERT INTO Cart (CustomerID, ProductID, Quantity, AddedDate) VALUES (" + customerId + ", " + productId + ", 1, GETDATE())";
+                string query = "INSERT INTO Cart (CustomerID, ProductID, Quantity) VALUES (" + customerId + ", " + productId + ", 1)";
                 DataAccess da = new DataAccess();
                 da.ExecuteDMLQuery(query);
                 MessageBox.Show("Product added to cart!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -222,3 +222,5 @@ namespace SmartphoneCoverShop
         }
     }
 }
+
+

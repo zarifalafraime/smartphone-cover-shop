@@ -84,7 +84,7 @@ namespace SmartphoneCoverShop
                 using (DataAccess da = new DataAccess())
                 {
                     string query = @"
-                        SELECT r.ReviewID, c.FullName AS CustomerName, s.ShopName, p.ProductName, r.Rating, r.Comment, r.CreatedAt
+                        SELECT r.ReviewID, c.FullName AS CustomerName, s.ShopName, p.ProductName, r.Rating, r.Comment
                         FROM Reviews r
                         INNER JOIN Users c ON r.CustomerID = c.UserID
                         INNER JOIN Products p ON r.ProductID = p.ProductID
@@ -153,3 +153,4 @@ namespace SmartphoneCoverShop
         }
     }
 }
+

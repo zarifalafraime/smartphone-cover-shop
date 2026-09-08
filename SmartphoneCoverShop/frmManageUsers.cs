@@ -8,10 +8,10 @@ namespace SmartphoneCoverShop
     public class frmManageUsers : Form
     {
         private DataGridView dgvUsers;
-        private TextBox txtFullName, txtEmail, txtPhone, txtPassword, txtSearch;
+        private TextBox txtFullName, txtEmail, txtPassword, txtSearch;
         private ComboBox cmbUserType, cmbStatus;
         private Button btnAdd, btnUpdate, btnDelete, btnClear;
-        private Label lblName, lblEmail, lblPhone, lblPassword, lblType, lblStatus, lblSearch;
+        private Label lblName, lblEmail, lblPassword, lblType, lblStatus, lblSearch;
         private int selectedId = 0;
 
         public frmManageUsers()
@@ -25,7 +25,7 @@ namespace SmartphoneCoverShop
             this.dgvUsers = new DataGridView();
             this.txtFullName = new TextBox();
             this.txtEmail = new TextBox();
-            this.txtPhone = new TextBox();
+            
             this.txtPassword = new TextBox();
             this.txtSearch = new TextBox();
             this.cmbUserType = new ComboBox();
@@ -38,7 +38,7 @@ namespace SmartphoneCoverShop
             
             this.lblName = new Label();
             this.lblEmail = new Label();
-            this.lblPhone = new Label();
+            
             this.lblPassword = new Label();
             this.lblType = new Label();
             this.lblStatus = new Label();
@@ -54,8 +54,7 @@ namespace SmartphoneCoverShop
             this.lblEmail.Text = "Email:";
             this.lblEmail.Location = new Point(20, 55);
 
-            this.lblPhone.Text = "Phone:";
-            this.lblPhone.Location = new Point(20, 90);
+            
 
             this.lblPassword.Text = "Password:";
             this.lblPassword.Location = new Point(320, 20);
@@ -77,8 +76,7 @@ namespace SmartphoneCoverShop
             this.txtEmail.Location = new Point(100, 52);
             this.txtEmail.Width = 180;
 
-            this.txtPhone.Location = new Point(100, 87);
-            this.txtPhone.Width = 180;
+            
 
             this.txtPassword.Location = new Point(400, 17);
             this.txtPassword.Width = 180;
@@ -146,8 +144,8 @@ namespace SmartphoneCoverShop
             this.Controls.Add(txtFullName);
             this.Controls.Add(lblEmail);
             this.Controls.Add(txtEmail);
-            this.Controls.Add(lblPhone);
-            this.Controls.Add(txtPhone);
+            
+            
             this.Controls.Add(lblPassword);
             this.Controls.Add(txtPassword);
             this.Controls.Add(lblType);
@@ -173,7 +171,7 @@ namespace SmartphoneCoverShop
             {
                 using (DataAccess da = new DataAccess())
                 {
-                    string query = "SELECT UserID, FullName, Email, Password, UserType, Phone, Status, CreatedAt FROM Users";
+                    string query = "SELECT UserID, FullName, Email, Password, UserType, Status, CreatedAt FROM Users";
                     if (!string.IsNullOrEmpty(searchTerm))
                     {
                         string safeTerm = searchTerm.Replace("'", "''");
@@ -203,7 +201,7 @@ namespace SmartphoneCoverShop
                 txtFullName.Text = row.Cells["FullName"].Value.ToString();
                 txtEmail.Text = row.Cells["Email"].Value.ToString();
                 txtPassword.Text = row.Cells["Password"].Value.ToString();
-                txtPhone.Text = row.Cells["Phone"].Value.ToString();
+                
                 cmbUserType.SelectedItem = row.Cells["UserType"].Value.ToString();
                 
                 int st = Convert.ToInt32(row.Cells["Status"].Value);
@@ -224,12 +222,12 @@ namespace SmartphoneCoverShop
                 {
                     string safeName = txtFullName.Text.Replace("'", "''");
                     string safeEmail = txtEmail.Text.Replace("'", "''");
-                    string safePhone = txtPhone.Text.Replace("'", "''");
+                    
                     string safePass = txtPassword.Text.Replace("'", "''");
                     int status = cmbStatus.SelectedIndex == 0 ? 0 : (cmbStatus.SelectedIndex == 1 ? 1 : 2);
 
-                    string query = string.Format("INSERT INTO Users (FullName, Email, Password, UserType, Phone, Status, CreatedAt) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', {5}, GETDATE())",
-                        safeName, safeEmail, safePass, cmbUserType.SelectedItem.ToString(), safePhone, status);
+                    string query = string.Format("INSERT INTO Users (FullName, Email, Password, UserType, Status, CreatedAt) VALUES ('{0}', '{1}', '{2}', '{3}', {4}, GETDATE())",
+                        safeName, safeEmail, safePass, cmbUserType.SelectedItem.ToString(), status);
                     da.ExecuteDMLQuery(query);
                     MessageBox.Show("User added successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     ClearForm();
@@ -255,12 +253,12 @@ namespace SmartphoneCoverShop
                 {
                     string safeName = txtFullName.Text.Replace("'", "''");
                     string safeEmail = txtEmail.Text.Replace("'", "''");
-                    string safePhone = txtPhone.Text.Replace("'", "''");
+                    
                     string safePass = txtPassword.Text.Replace("'", "''");
                     int status = cmbStatus.SelectedIndex == 0 ? 0 : (cmbStatus.SelectedIndex == 1 ? 1 : 2);
 
-                    string query = string.Format("UPDATE Users SET FullName='{0}', Email='{1}', Password='{2}', UserType='{3}', Phone='{4}', Status={5} WHERE UserID={6}",
-                        safeName, safeEmail, safePass, cmbUserType.SelectedItem.ToString(), safePhone, status, selectedId);
+                    string query = string.Format("UPDATE Users SET FullName='{0}', Email='{1}', Password='{2}', UserType='{3}', Status={4} WHERE UserID={5}",
+                        safeName, safeEmail, safePass, cmbUserType.SelectedItem.ToString(), status, selectedId);
                     da.ExecuteDMLQuery(query);
                     MessageBox.Show("User updated successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     ClearForm();
@@ -311,7 +309,7 @@ namespace SmartphoneCoverShop
             selectedId = 0;
             txtFullName.Clear();
             txtEmail.Clear();
-            txtPhone.Clear();
+            
             txtPassword.Clear();
             txtSearch.Clear();
             cmbUserType.SelectedIndex = -1;
@@ -320,3 +318,4 @@ namespace SmartphoneCoverShop
         }
     }
 }
+

@@ -90,11 +90,12 @@ namespace SmartphoneCoverShop
             DataTable checkDt = da.ExecuteQueryTable("SELECT OrderID FROM Orders WHERE CustomerID = " + customerId);
             if (checkDt.Rows.Count == 0)
             {
-                da.ExecuteDMLQuery("INSERT INTO Orders (CustomerID, OrderDate, TotalAmount, PaymentMethod, Status) VALUES (" + customerId + ", GETDATE(), 599.99, 'DummyCard', 'Completed')");
+                da.ExecuteDMLQuery("INSERT INTO Orders (CustomerID, OrderDate, TotalAmount, PaymentMethod) VALUES (" + customerId + ", GETDATE(), 599.99, 'DummyCard')");
             }
             
-            DataTable dt = da.ExecuteQueryTable("SELECT OrderID, OrderDate, TotalAmount, Status FROM Orders WHERE CustomerID = " + customerId + " ORDER BY OrderDate DESC");
+            DataTable dt = da.ExecuteQueryTable("SELECT OrderID, OrderDate, TotalAmount FROM Orders WHERE CustomerID = " + customerId + " ORDER BY OrderDate DESC");
             dgvOrders.DataSource = dt;
         }
     }
 }
+

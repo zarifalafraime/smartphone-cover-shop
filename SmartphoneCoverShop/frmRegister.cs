@@ -65,8 +65,8 @@ namespace SmartphoneCoverShop
                     }
 
                     string register =
-                        "INSERT INTO Users (FullName, Email, [Password], UserType, Phone, CreatedAt, [Status]) " +
-                        "VALUES (@FullName, @Email, @Password, @UserType, @Phone, GETDATE(), @Status)";
+                        "INSERT INTO Users (FullName, Email, [Password], UserType, [Status]) " +
+                        "VALUES (@FullName, @Email, @Password, @UserType, @Status)";
 
                     SqlCommand cmd = new SqlCommand(register, con);
 
@@ -74,8 +74,7 @@ namespace SmartphoneCoverShop
                     cmd.Parameters.AddWithValue("@Email", txtEmail.Text.Trim());
                     cmd.Parameters.AddWithValue("@Password", txtPassword.Text);
                     cmd.Parameters.AddWithValue("@UserType", selectedRole);
-                    cmd.Parameters.AddWithValue("@Phone", string.IsNullOrEmpty(txtPhone.Text) ? (object)DBNull.Value : txtPhone.Text.Trim());
-                    cmd.Parameters.AddWithValue("@Status", initialStatus);
+                                        cmd.Parameters.AddWithValue("@Status", initialStatus);
 
                     cmd.ExecuteNonQuery();
 
@@ -83,8 +82,7 @@ namespace SmartphoneCoverShop
 
                     txtFullName.Text = "";
                     txtEmail.Text = "";
-                    txtPhone.Text = "";
-                    txtPassword.Text = "";
+                                        txtPassword.Text = "";
                     txtConPassword.Text = "";
                     if (cmbUserType.Items.Count > 0) cmbUserType.SelectedIndex = 0;
                     txtFullName.Focus();
@@ -144,8 +142,7 @@ namespace SmartphoneCoverShop
         {
             txtFullName.Text = "";
             txtEmail.Text = "";
-            txtPhone.Text = "";
-            txtPassword.Text = "";
+                        txtPassword.Text = "";
             txtConPassword.Text = "";
             if (cmbUserType.Items.Count > 0) cmbUserType.SelectedIndex = 0;
             txtFullName.Focus();
@@ -172,4 +169,5 @@ namespace SmartphoneCoverShop
         }
     }
 }
+
 
