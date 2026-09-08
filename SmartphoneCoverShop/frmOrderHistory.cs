@@ -60,7 +60,7 @@ namespace SmartphoneCoverShop
             this.btnClose.Size = new Size(120, 35);
             this.btnClose.Text = "Close";
             this.btnClose.UseVisualStyleBackColor = false;
-            this.btnClose.Click += new EventHandler((s, e) => this.Close());
+            this.btnClose.Click += new EventHandler(this.btnClose_Click);
             
             this.AutoScaleDimensions = new SizeF(6F, 13F);
             this.AutoScaleMode = AutoScaleMode.Font;
@@ -93,9 +93,13 @@ namespace SmartphoneCoverShop
                 da.ExecuteDMLQuery("INSERT INTO Orders (CustomerID, OrderDate, TotalAmount, PaymentMethod) VALUES (" + customerId + ", GETDATE(), 599.99, 'DummyCard')");
             }
             
-            DataTable dt = da.ExecuteQueryTable("SELECT OrderID, OrderDate, TotalAmount FROM Orders WHERE CustomerID = " + customerId + " ORDER BY OrderDate DESC");
+            DataTable dt = da.ExecuteQueryTable("SELECT OrderID, OrderDate, TotalAmount, PaymentMethod FROM Orders WHERE CustomerID = " + customerId + " ORDER BY OrderDate DESC");
             dgvOrders.DataSource = dt;
+        }
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }
-

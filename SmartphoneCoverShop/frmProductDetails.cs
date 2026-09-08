@@ -119,7 +119,8 @@ namespace SmartphoneCoverShop
             this.btnClose.Location = new Point(400, 510);
             this.btnClose.Size = new Size(120, 35);
             this.btnClose.Text = "Close";
-            this.btnClose.Click += new EventHandler((s, e) => this.Close());
+            this.btnClose.UseVisualStyleBackColor = false;
+            this.btnClose.Click += new EventHandler(this.btnClose_Click);
 
             this.ClientSize = new Size(550, 560);
             this.Controls.Add(this.lblName);
@@ -256,6 +257,11 @@ namespace SmartphoneCoverShop
             da.ExecuteDMLQuery(query);
             txtReview.Clear();
             LoadReviews();
+        }
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }
