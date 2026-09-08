@@ -134,7 +134,7 @@ namespace SmartphoneCoverShop
             {
                 using (DataAccess da = new DataAccess())
                 {
-                    string query = "SELECT UserID, FullName, Email, Phone, Status, CreatedAt FROM Users WHERE UserType = 'admin' AND Status = 2";
+                    string query = "SELECT UserID, FullName, Email, Status, CreatedAt FROM Users WHERE UserType = 'admin' AND Status = 2";
                     if (!string.IsNullOrEmpty(searchTerm))
                     {
                         // Note: A parameterized query is safer, but adapting to the existing DataAccess ExecuteQueryTable here:
@@ -202,3 +202,4 @@ namespace SmartphoneCoverShop
         }
     }
 }
+

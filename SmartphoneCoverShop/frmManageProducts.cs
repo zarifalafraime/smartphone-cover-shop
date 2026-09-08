@@ -1,242 +1,238 @@
 using System;
 using System.Data;
 using System.Data.SqlClient;
-using System.Configuration;
 using System.Windows.Forms;
 
 namespace SmartphoneCoverShop
 {
     public partial class frmManageProducts : Form
     {
-        private int _userId;
-        private int _shopId = 0;
-        private string connectionString = ConfigurationManager.ConnectionStrings["MyConnection"].ConnectionString;
+        private int loggedInUserId;
+        private int shopId;
 
         public frmManageProducts(int userId)
         {
             InitializeComponent();
-            _userId = userId;
+            loggedInUserId = userId;
         }
 
         private void frmManageProducts_Load(object sender, EventArgs e)
         {
             LoadShopId();
             LoadCategories();
-            LoadProducts();
+            LoadProducts("");
         }
 
         private void LoadShopId()
         {
-            using (SqlConnection con = new SqlConnection(connectionString))
+            using (DataAccess da = new DataAccess())
             {
-                con.Open();
-                string query = "SELECT ShopID FROM Shops WHERE UserID = @UserID";
-                using (SqlCommand cmd = new SqlCommand(query, con))
+                string query = "SELECT ShopID FROM Shops WHERE UserID = " + loggedInUserId;
+                DataTable dt = da.ExecuteQueryTable(query);
+                if (dt.Rows.Count > 0)
                 {
-                    cmd.Parameters.AddWithValue("@UserID", _userId);
-                    object result = cmd.ExecuteScalar();
-                    if (result != null)
-                    {
-                        _shopId = Convert.ToInt32(result);
-                    }
-                    else
-                    {
-                        MessageBox.Show("Please create a Shop Profile first before managing products.", "Profile Missing", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        this.Close();
-                    }
+                    shopId = Convert.ToInt32(dt.Rows[0]["ShopID"]);
                 }
             }
         }
 
         private void LoadCategories()
         {
-            using (SqlConnection con = new SqlConnection(connectionString))
+            using (DataAccess da = new DataAccess())
             {
-                con.Open();
-                string query = "SELECT CategoryID, CategoryName FROM Categories WHERE Status = 1";
-                using (SqlDataAdapter adapter = new SqlDataAdapter(query, con))
-                {
-                    DataTable dt = new DataTable();
-                    adapter.Fill(dt);
-                    cmbCategory.DataSource = dt;
-                    cmbCategory.DisplayMember = "CategoryName";
-                    cmbCategory.ValueMember = "CategoryID";
-                    cmbCategory.SelectedIndex = -1;
-                }
+                string query = "SELECT CategoryID, CategoryName FROM Categories";
+                DataTable dt = da.ExecuteQueryTable(query);
+                cmbCategory.DataSource = dt;
+                cmbCategory.DisplayMember = "CategoryName";
+                cmbCategory.ValueMember = "CategoryID";
             }
         }
 
-        private void LoadProducts(string search = "")
+        private void LoadProducts(string search)
         {
-            if (_shopId == 0) return;
+            if (shopId == 0) return;
 
-            using (SqlConnection con = new SqlConnection(connectionString))
+            using (DataAccess da = new DataAccess())
             {
-                con.Open();
                 string query = @"
-                    SELECT p.ProductID, p.ProductName, c.CategoryName, p.Price, p.StockQuantity, p.Description 
+                    SELECT 
+                        p.ProductID, 
+                        p.ProductName, 
+                        c.CategoryName, 
+                        p.Description, 
+                        p.Price, 
+                        p.StockQuantity
                     FROM Products p
                     INNER JOIN Categories c ON p.CategoryID = c.CategoryID
-                    WHERE p.ShopID = @ShopID AND p.Status = 1";
+                    WHERE p.ShopID = @ShopID";
+
+                if (!string.IsNullOrEmpty(search))
+                {
+                    query += " AND (p.ProductName LIKE @Search OR p.Description LIKE @Search)";
+                }
+
+                da.Sqlcom = new SqlCommand(query, da.Sqlcon);
+                da.Sqlcom.Parameters.AddWithValue("@ShopID", shopId);
                 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    query += " AND p.ProductName LIKE @Search";
+                    da.Sqlcom.Parameters.AddWithValue("@Search", "%" + search + "%");
                 }
 
-                using (SqlCommand cmd = new SqlCommand(query, con))
-                {
-                    cmd.Parameters.AddWithValue("@ShopID", _shopId);
-                    if (!string.IsNullOrEmpty(search))
-                    {
-                        cmd.Parameters.AddWithValue("@Search", "%" + search + "%");
-                    }
-
-                    using (SqlDataAdapter adapter = new SqlDataAdapter(cmd))
-                    {
-                        DataTable dt = new DataTable();
-                        adapter.Fill(dt);
-                        dgvProducts.DataSource = dt;
-                    }
-                }
+                SqlDataAdapter adapter = new SqlDataAdapter(da.Sqlcom);
+                DataTable dt = new DataTable();
+                adapter.Fill(dt);
+                dgvProducts.DataSource = dt;
             }
         }
 
-        private void btnAdd_Click(object sender, EventArgs e)
+        private void btnSave_Click(object sender, EventArgs e)
         {
-            if (!ValidateInput()) return;
-
-            using (SqlConnection con = new SqlConnection(connectionString))
+            if (shopId == 0)
             {
-                con.Open();
-                string query = "INSERT INTO Products (ShopID, CategoryID, ProductName, Description, Price, StockQuantity, Status) VALUES (@ShopID, @CategoryID, @ProductName, @Description, @Price, @StockQuantity, 1)";
-                using (SqlCommand cmd = new SqlCommand(query, con))
-                {
-                    cmd.Parameters.AddWithValue("@ShopID", _shopId);
-                    cmd.Parameters.AddWithValue("@CategoryID", cmbCategory.SelectedValue);
-                    cmd.Parameters.AddWithValue("@ProductName", txtProductName.Text.Trim());
-                    cmd.Parameters.AddWithValue("@Description", txtDescription.Text.Trim());
-                    cmd.Parameters.AddWithValue("@Price", Convert.ToDecimal(txtPrice.Text));
-                    cmd.Parameters.AddWithValue("@StockQuantity", Convert.ToInt32(txtStock.Text));
-                    cmd.ExecuteNonQuery();
-                }
+                MessageBox.Show("You must set up a shop profile first.");
+                return;
             }
-            ClearFields();
-            LoadProducts();
+
+            if (cmbCategory.SelectedValue == null)
+            {
+                MessageBox.Show("Please select a valid category.");
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(txtProductName.Text) || 
+                !decimal.TryParse(txtPrice.Text, out decimal price) || 
+                !int.TryParse(txtStock.Text, out int stock))
+            {
+                MessageBox.Show("Please enter valid product details, price, and stock quantity.");
+                return;
+            }
+
+            using (DataAccess da = new DataAccess())
+            {
+                string query = "INSERT INTO Products (ShopID, CategoryID, ProductName, Description, Price, StockQuantity) VALUES (@ShopID, @CategoryID, @ProductName, @Description, @Price, @StockQuantity)";
+                da.Sqlcom = new SqlCommand(query, da.Sqlcon);
+                
+                da.Sqlcom.Parameters.AddWithValue("@ShopID", shopId);
+                da.Sqlcom.Parameters.AddWithValue("@CategoryID", cmbCategory.SelectedValue);
+                da.Sqlcom.Parameters.AddWithValue("@ProductName", txtProductName.Text);
+                da.Sqlcom.Parameters.AddWithValue("@Description", txtDescription.Text);
+                da.Sqlcom.Parameters.AddWithValue("@Price", price);
+                da.Sqlcom.Parameters.AddWithValue("@StockQuantity", stock);
+
+                da.Sqlcom.ExecuteNonQuery();
+                MessageBox.Show("Product added successfully!");
+                ClearFields();
+                LoadProducts("");
+            }
         }
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(txtProductID.Text))
+            if (dgvProducts.SelectedRows.Count == 0)
             {
-                MessageBox.Show("Please select a product to update.", "Select Product", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Please select a product to update.");
                 return;
             }
-            if (!ValidateInput()) return;
 
-            using (SqlConnection con = new SqlConnection(connectionString))
+            if (!decimal.TryParse(txtPrice.Text, out decimal price) || !int.TryParse(txtStock.Text, out int stock))
             {
-                con.Open();
-                string query = "UPDATE Products SET CategoryID = @CategoryID, ProductName = @ProductName, Description = @Description, Price = @Price, StockQuantity = @StockQuantity WHERE ProductID = @ProductID AND ShopID = @ShopID";
-                using (SqlCommand cmd = new SqlCommand(query, con))
-                {
-                    cmd.Parameters.AddWithValue("@ProductID", txtProductID.Text);
-                    cmd.Parameters.AddWithValue("@ShopID", _shopId);
-                    cmd.Parameters.AddWithValue("@CategoryID", cmbCategory.SelectedValue);
-                    cmd.Parameters.AddWithValue("@ProductName", txtProductName.Text.Trim());
-                    cmd.Parameters.AddWithValue("@Description", txtDescription.Text.Trim());
-                    cmd.Parameters.AddWithValue("@Price", Convert.ToDecimal(txtPrice.Text));
-                    cmd.Parameters.AddWithValue("@StockQuantity", Convert.ToInt32(txtStock.Text));
-                    cmd.ExecuteNonQuery();
-                }
+                MessageBox.Show("Please enter valid price and stock quantity.");
+                return;
             }
-            ClearFields();
-            LoadProducts();
+
+            int productId = Convert.ToInt32(dgvProducts.SelectedRows[0].Cells["ProductID"].Value);
+
+            using (DataAccess da = new DataAccess())
+            {
+                string query = "UPDATE Products SET CategoryID = @CategoryID, ProductName = @ProductName, Description = @Description, Price = @Price, StockQuantity = @StockQuantity WHERE ProductID = @ProductID AND ShopID = @ShopID";
+                da.Sqlcom = new SqlCommand(query, da.Sqlcon);
+
+                da.Sqlcom.Parameters.AddWithValue("@CategoryID", cmbCategory.SelectedValue);
+                da.Sqlcom.Parameters.AddWithValue("@ProductName", txtProductName.Text);
+                da.Sqlcom.Parameters.AddWithValue("@Description", txtDescription.Text);
+                da.Sqlcom.Parameters.AddWithValue("@Price", price);
+                da.Sqlcom.Parameters.AddWithValue("@StockQuantity", stock);
+                da.Sqlcom.Parameters.AddWithValue("@ProductID", productId);
+                da.Sqlcom.Parameters.AddWithValue("@ShopID", shopId);
+
+                da.Sqlcom.ExecuteNonQuery();
+                MessageBox.Show("Product updated successfully!");
+                ClearFields();
+                LoadProducts("");
+            }
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(txtProductID.Text))
+            if (dgvProducts.SelectedRows.Count == 0)
             {
-                MessageBox.Show("Please select a product to delete.", "Select Product", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Please select a product to delete.");
                 return;
             }
 
-            if (MessageBox.Show("Are you sure you want to delete this product?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            int productId = Convert.ToInt32(dgvProducts.SelectedRows[0].Cells["ProductID"].Value);
+
+            var confirm = MessageBox.Show("Are you sure you want to permanently delete this product? This may fail if there are existing orders for this product.", "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (confirm == DialogResult.Yes)
             {
-                using (SqlConnection con = new SqlConnection(connectionString))
+                using (DataAccess da = new DataAccess())
                 {
-                    con.Open();
-                    // Soft delete
-                    string query = "UPDATE Products SET Status = 0 WHERE ProductID = @ProductID AND ShopID = @ShopID";
-                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    try
                     {
-                        cmd.Parameters.AddWithValue("@ProductID", txtProductID.Text);
-                        cmd.Parameters.AddWithValue("@ShopID", _shopId);
-                        cmd.ExecuteNonQuery();
+                        string query = "DELETE FROM Products WHERE ProductID = @ProductID AND ShopID = @ShopID";
+                        da.Sqlcom = new SqlCommand(query, da.Sqlcon);
+                        da.Sqlcom.Parameters.AddWithValue("@ProductID", productId);
+                        da.Sqlcom.Parameters.AddWithValue("@ShopID", shopId);
+                        da.Sqlcom.ExecuteNonQuery();
+                        
+                        MessageBox.Show("Product deleted successfully!");
+                        ClearFields();
+                        LoadProducts("");
+                    }
+                    catch (SqlException)
+                    {
+                        MessageBox.Show("Cannot delete this product because it is part of an existing order or cart.");
                     }
                 }
-                ClearFields();
-                LoadProducts();
             }
+        }
+
+        private void btnSearch_Click(object sender, EventArgs e)
+        {
+            LoadProducts(txtSearch.Text.Trim());
         }
 
         private void btnClear_Click(object sender, EventArgs e)
         {
             ClearFields();
-        }
-
-        private void txtSearch_TextChanged(object sender, EventArgs e)
-        {
-            LoadProducts(txtSearch.Text.Trim());
-        }
-
-        private void dgvProducts_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex >= 0)
-            {
-                DataGridViewRow row = dgvProducts.Rows[e.RowIndex];
-                txtProductID.Text = row.Cells["ProductID"].Value.ToString();
-                txtProductName.Text = row.Cells["ProductName"].Value.ToString();
-                cmbCategory.Text = row.Cells["CategoryName"].Value.ToString();
-                txtPrice.Text = row.Cells["Price"].Value.ToString();
-                txtStock.Text = row.Cells["StockQuantity"].Value.ToString();
-                txtDescription.Text = row.Cells["Description"].Value.ToString();
-            }
+            LoadProducts("");
         }
 
         private void ClearFields()
         {
-            txtProductID.Clear();
             txtProductName.Clear();
-            cmbCategory.SelectedIndex = -1;
+            txtDescription.Clear();
             txtPrice.Clear();
             txtStock.Clear();
-            txtDescription.Clear();
+            txtSearch.Clear();
+            if (cmbCategory.Items.Count > 0) cmbCategory.SelectedIndex = 0;
+            dgvProducts.ClearSelection();
         }
 
-        private bool ValidateInput()
+        private void dgvProducts_SelectionChanged(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(txtProductName.Text) || cmbCategory.SelectedValue == null ||
-                string.IsNullOrWhiteSpace(txtPrice.Text) || string.IsNullOrWhiteSpace(txtStock.Text))
+            if (dgvProducts.SelectedRows.Count > 0)
             {
-                MessageBox.Show("Product Name, Category, Price, and Stock are required.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return false;
+                DataGridViewRow row = dgvProducts.SelectedRows[0];
+                txtProductName.Text = row.Cells["ProductName"].Value.ToString();
+                txtDescription.Text = row.Cells["Description"].Value.ToString();
+                txtPrice.Text = row.Cells["Price"].Value.ToString();
+                txtStock.Text = row.Cells["StockQuantity"].Value.ToString();
+                
+                string categoryName = row.Cells["CategoryName"].Value.ToString();
+                cmbCategory.SelectedIndex = cmbCategory.FindStringExact(categoryName);
             }
-
-            if (!decimal.TryParse(txtPrice.Text, out _))
-            {
-                MessageBox.Show("Price must be a valid number.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return false;
-            }
-
-            if (!int.TryParse(txtStock.Text, out _))
-            {
-                MessageBox.Show("Stock must be a valid integer.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return false;
-            }
-
-            return true;
         }
 
         private void btnClose_Click(object sender, EventArgs e)

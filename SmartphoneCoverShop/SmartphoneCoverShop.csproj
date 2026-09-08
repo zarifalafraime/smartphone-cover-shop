@@ -135,12 +135,21 @@
     <EmbeddedResource Include="frmManageShopProfile.resx">
       <DependentUpon>frmManageShopProfile.cs</DependentUpon>
     </EmbeddedResource>
+    <Compile Include="frmManageOffers.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmManageOffers.Designer.cs">
+      <DependentUpon>frmManageOffers.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmManageProducts.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmManageProducts.Designer.cs">
       <DependentUpon>frmManageProducts.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="frmManageOffers.resx">
+      <DependentUpon>frmManageOffers.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmManageProducts.resx">
       <DependentUpon>frmManageProducts.cs</DependentUpon>
     </EmbeddedResource>
@@ -150,3 +159,4 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ItemGroup><Compile Include="frmBrowseProducts.cs"><SubType>Form</SubType></Compile><Compile Include="frmCustomerCart.cs"><SubType>Form</SubType></Compile></ItemGroup>  <ItemGroup><Compile Include="frmProductDetails.cs"><SubType>Form</SubType></Compile><Compile Include="frmCheckout.cs"><SubType>Form</SubType></Compile></ItemGroup>  <ItemGroup><Compile Include="frmOrderHistory.cs"><SubType>Form</SubType></Compile></ItemGroup></Project>
+

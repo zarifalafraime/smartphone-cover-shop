@@ -150,7 +150,7 @@ namespace SmartphoneCoverShop
         {
             DataAccess da = new DataAccess();
             // Process order (dummy)
-            da.ExecuteDMLQuery("INSERT INTO Orders (CustomerID, OrderDate, TotalAmount, PaymentMethod, Status) VALUES (" + customerId + ", GETDATE(), " + finalTotal + ", 'Card', 'Completed')");
+            da.ExecuteDMLQuery("INSERT INTO Orders (CustomerID, OrderDate, TotalAmount, PaymentMethod) VALUES (" + customerId + ", GETDATE(), " + finalTotal + ", 'Card')");
             
             // Get OrderID
             DataTable dt = da.ExecuteQueryTable("SELECT TOP 1 OrderID FROM Orders WHERE CustomerID = " + customerId + " ORDER BY OrderID DESC");
@@ -168,3 +168,4 @@ namespace SmartphoneCoverShop
         }
     }
 }
+

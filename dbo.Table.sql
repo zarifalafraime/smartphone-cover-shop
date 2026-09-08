@@ -20,41 +20,37 @@ GO
 IF OBJECT_ID('Users', 'U') IS NOT NULL DROP TABLE Users;
 GO
 
--- 4.2.1 Users
+-- 4.2.1 Users (Dropped Phone)
 CREATE TABLE Users (
     UserID INT IDENTITY(1,1) PRIMARY KEY,
     FullName VARCHAR(100) NOT NULL,
     Email VARCHAR(100) UNIQUE NOT NULL,
     Password VARCHAR(255) NOT NULL,
     UserType VARCHAR(20) NOT NULL,
-    Phone VARCHAR(15) NULL,
     CreatedAt DATETIME DEFAULT GETDATE(),
     Status INT NOT NULL
 );
 GO
 
--- 4.2.2 Shops
+-- 4.2.2 Shops (Dropped CreatedAt)
 CREATE TABLE Shops (
     ShopID INT IDENTITY(1,1) PRIMARY KEY,
     UserID INT UNIQUE FOREIGN KEY REFERENCES Users(UserID),
     ShopName VARCHAR(100) NOT NULL,
     ShopDescription TEXT NULL,
-    CreatedAt DATETIME DEFAULT GETDATE(),
     Status INT NOT NULL
 );
 GO
 
--- 4.2.3 Categories
+-- 4.2.3 Categories (Dropped Description, CreatedAt)
 CREATE TABLE Categories (
     CategoryID INT IDENTITY(1,1) PRIMARY KEY,
     CategoryName VARCHAR(100) NOT NULL,
-    Description TEXT NULL,
-    CreatedAt DATETIME DEFAULT GETDATE(),
     Status INT NOT NULL
 );
 GO
 
--- 4.2.4 Products
+-- 4.2.4 Products (Dropped ImageURL, CreatedAt, Status)
 CREATE TABLE Products (
     ProductID INT IDENTITY(1,1) PRIMARY KEY,
     ShopID INT NOT NULL FOREIGN KEY REFERENCES Shops(ShopID),
@@ -62,31 +58,26 @@ CREATE TABLE Products (
     ProductName VARCHAR(150) NOT NULL,
     Description TEXT NULL,
     Price DECIMAL(10,2) NOT NULL,
-    StockQuantity INT NOT NULL,
-    ImageURL VARCHAR(255) NULL,
-    CreatedAt DATETIME DEFAULT GETDATE(),
-    Status INT NOT NULL
+    StockQuantity INT NOT NULL
 );
 GO
 
--- 4.2.5 Cart
+-- 4.2.5 Cart (Dropped AddedDate)
 CREATE TABLE Cart (
     CartID INT IDENTITY(1,1) PRIMARY KEY,
     CustomerID INT NOT NULL FOREIGN KEY REFERENCES Users(UserID),
     ProductID INT NOT NULL FOREIGN KEY REFERENCES Products(ProductID),
-    Quantity INT NOT NULL,
-    AddedDate DATETIME DEFAULT GETDATE()
+    Quantity INT NOT NULL
 );
 GO
 
--- 4.2.6 Orders
+-- 4.2.6 Orders (Dropped Status)
 CREATE TABLE Orders (
     OrderID INT IDENTITY(1,1) PRIMARY KEY,
     CustomerID INT NOT NULL FOREIGN KEY REFERENCES Users(UserID),
     OrderDate DATETIME DEFAULT GETDATE(),
     TotalAmount DECIMAL(10,2) NOT NULL,
-    PaymentMethod VARCHAR(50) NOT NULL,
-    Status VARCHAR(30) NOT NULL
+    PaymentMethod VARCHAR(50) NOT NULL
 );
 GO
 
@@ -113,29 +104,23 @@ CREATE TABLE Payments (
 );
 GO
 
--- 4.2.9 Reviews
+-- 4.2.9 Reviews (Dropped CreatedAt)
 CREATE TABLE Reviews (
     ReviewID INT IDENTITY(1,1) PRIMARY KEY,
     CustomerID INT NOT NULL FOREIGN KEY REFERENCES Users(UserID),
     ProductID INT NOT NULL FOREIGN KEY REFERENCES Products(ProductID),
     Rating TINYINT CHECK (Rating >= 1 AND Rating <= 5),
-    Comment TEXT NULL,
-    CreatedAt DATETIME DEFAULT GETDATE()
+    Comment TEXT NULL
 );
 GO
 
--- 4.2.10 Offers
+-- 4.2.10 Offers (Dropped CreatedAt, MinOrderAmount, DiscountType. Switched to ShopID)
 CREATE TABLE Offers (
     OfferID INT IDENTITY(1,1) PRIMARY KEY,
-    ProductID INT NOT NULL FOREIGN KEY REFERENCES Products(ProductID),
+    ShopID INT NOT NULL FOREIGN KEY REFERENCES Shops(ShopID),
     OfferName VARCHAR(100) NOT NULL,
-    DiscountType VARCHAR(20) NOT NULL,
     DiscountValue DECIMAL(10,2) NOT NULL,
-    StartDate DATE NOT NULL,
-    EndDate DATE NOT NULL,
-    MinOrderAmount DECIMAL(10,2) NULL,
-    Status VARCHAR(20) NOT NULL,
-    CreatedAt DATETIME DEFAULT GETDATE()
+    Status VARCHAR(20) NOT NULL
 );
 GO
 

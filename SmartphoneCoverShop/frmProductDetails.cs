@@ -169,31 +169,16 @@ namespace SmartphoneCoverShop
         private void LoadOffers()
         {
             DataAccess da = new DataAccess();
-            
-            // Seed dummy offers for this product if none exist
-            DataTable checkDt = da.ExecuteQueryTable("SELECT OfferID FROM Offers WHERE ProductID = " + productId);
-            if (checkDt.Rows.Count == 0)
-            {
-                da.ExecuteDMLQuery("INSERT INTO Offers (ProductID, OfferName, DiscountType, DiscountValue, StartDate, EndDate, Status) VALUES (" + productId + ", 'DISCOUNT10', 'Percentage', 10, GETDATE(), DATEADD(year, 1, GETDATE()), 'Active')");
-                da.ExecuteDMLQuery("INSERT INTO Offers (ProductID, OfferName, DiscountType, DiscountValue, StartDate, EndDate, Status) VALUES (" + productId + ", 'HALFPRICE', 'Percentage', 50, GETDATE(), DATEADD(year, 1, GETDATE()), 'Active')");
-            }
-            
-            DataTable dt = da.ExecuteQueryTable("SELECT OfferName, DiscountValue, DiscountType FROM Offers WHERE ProductID = " + productId + " AND Status = 'Active'");
+            DataTable dt = da.ExecuteQueryTable("SELECT o.OfferName, o.DiscountValue FROM Offers o INNER JOIN Products p ON o.ShopID = p.ShopID WHERE p.ProductID = " + productId + " AND o.Status = 'Active'");
             string couponsText = "Shop Coupons: ";
             foreach (DataRow row in dt.Rows)
             {
-                string type = row["DiscountType"].ToString() == "Percentage" ? "%" : "৳";
-                couponsText += row["OfferName"].ToString() + " (" + row["DiscountValue"].ToString() + type + "), ";
+                couponsText += row["OfferName"].ToString() + " (" + row["DiscountValue"].ToString() + "% off)  ";
             }
-            if (couponsText.EndsWith(", "))
-            {
-                couponsText = couponsText.Substring(0, couponsText.Length - 2);
-            }
+            if (dt.Rows.Count > 0)
+                
+            foreach (Control c in this.Controls) { if (c is Label && c.ForeColor == Color.FromArgb(47, 126, 94)) { c.Text = couponsText; break; } }
             else
-            {
-                couponsText = "No coupons available.";
-            }
-            
             // Update the control we added dynamically
             foreach (Control c in this.Controls)
             {
@@ -208,14 +193,14 @@ namespace SmartphoneCoverShop
         private void LoadReviews()
         {
             DataAccess da = new DataAccess();
-            DataTable dt = da.ExecuteQueryTable("SELECT u.FullName as Customer, r.Rating, r.Comment, r.CreatedAt FROM Reviews r INNER JOIN Users u ON r.CustomerID = u.UserID WHERE r.ProductID = " + productId);
+            DataTable dt = da.ExecuteQueryTable("SELECT u.FullName as Customer, r.Rating, r.Comment FROM Reviews r INNER JOIN Users u ON r.CustomerID = u.UserID WHERE r.ProductID = " + productId);
             dgvReviews.DataSource = dt;
         }
 
         private void btnAddToCart_Click(object sender, EventArgs e)
         {
             DataAccess da = new DataAccess();
-            da.ExecuteDMLQuery("INSERT INTO Cart (CustomerID, ProductID, Quantity, AddedDate) VALUES (" + customerId + ", " + productId + ", 1, GETDATE())");
+            da.ExecuteDMLQuery("INSERT INTO Cart (CustomerID, ProductID, Quantity) VALUES (" + customerId + ", " + productId + ", 1)");
             MessageBox.Show("Product added to cart!");
         }
 
@@ -228,7 +213,7 @@ namespace SmartphoneCoverShop
             }
             int rating = (int)numRating.Value;
             DataAccess da = new DataAccess();
-            string query = string.Format("INSERT INTO Reviews (CustomerID, ProductID, Rating, Comment, CreatedAt) VALUES ({0}, {1}, {2}, '{3}', GETDATE())",
+            string query = string.Format("INSERT INTO Reviews (CustomerID, ProductID, Rating, Comment) VALUES ({0}, {1}, {2}, '{3}')",
                 customerId, productId, rating, txtReview.Text.Replace("'", "''"));
             da.ExecuteDMLQuery(query);
             txtReview.Clear();
@@ -236,3 +221,7 @@ namespace SmartphoneCoverShop
         }
     }
 }
+
+
+
+
