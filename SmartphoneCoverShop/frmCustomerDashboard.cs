@@ -28,6 +28,31 @@ namespace SmartphoneCoverShop
             {
                 lblWelcome.Text = "Welcome, " + LoggedInFullName;
             }
+            LoadCoupons();
+        }
+
+        private void LoadCoupons()
+        {
+            DataAccess da = new DataAccess();
+            string query = "SELECT s.ShopName, o.OfferName AS 'Coupon Code', o.DiscountValue AS 'Discount (%)' " +
+                           "FROM Offers o INNER JOIN Shops s ON o.ShopID = s.ShopID " +
+                           "WHERE o.Status = 'Active'";
+            System.Data.DataTable dt = da.ExecuteQueryTable(query);
+            
+            dgvCoupons.DataSource = dt;
+            
+            // Apply similar styling as other grids
+            dgvCoupons.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            dgvCoupons.DefaultCellStyle.SelectionBackColor = System.Drawing.Color.FromArgb(116, 86, 174);
+            dgvCoupons.DefaultCellStyle.SelectionForeColor = System.Drawing.Color.White;
+            dgvCoupons.DefaultCellStyle.Padding = new Padding(5);
+            dgvCoupons.RowTemplate.Height = 35;
+            dgvCoupons.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dgvCoupons.ColumnHeadersDefaultCellStyle.BackColor = System.Drawing.Color.FromArgb(248, 249, 252);
+            dgvCoupons.ColumnHeadersDefaultCellStyle.ForeColor = System.Drawing.Color.Black;
+            dgvCoupons.ColumnHeadersDefaultCellStyle.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            dgvCoupons.EnableHeadersVisualStyles = false;
+            dgvCoupons.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
 
         private void btnLogout_Click(object sender, EventArgs e)
