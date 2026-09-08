@@ -192,10 +192,48 @@ namespace SmartphoneCoverShop
             if (dgvProducts.SelectedRows.Count > 0)
             {
                 int productId = Convert.ToInt32(dgvProducts.SelectedRows[0].Cells["ProductID"].Value);
-                string query = "INSERT INTO Cart (CustomerID, ProductID, Quantity) VALUES (" + customerId + ", " + productId + ", 1)";
                 DataAccess da = new DataAccess();
-                da.ExecuteDMLQuery(query);
-                MessageBox.Show("Product added to cart!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                // Check stock
+                DataTable dtProduct = da.ExecuteQueryTable("SELECT StockQuantity, ProductName FROM Products WHERE ProductID = " + productId);
+                if (dtProduct.Rows.Count > 0)
+                {
+                    int stock = Convert.ToInt32(dtProduct.Rows[0]["StockQuantity"]);
+                    string name = dtProduct.Rows[0]["ProductName"].ToString();
+
+                    // Check if already in cart
+                    DataTable dtCart = da.ExecuteQueryTable("SELECT CartID, Quantity FROM Cart WHERE CustomerID = " + customerId + " AND ProductID = " + productId);
+                    if (dtCart.Rows.Count > 0)
+                    {
+                        int currentQty = Convert.ToInt32(dtCart.Rows[0]["Quantity"]);
+                        int cartId = Convert.ToInt32(dtCart.Rows[0]["CartID"]);
+
+                        if (currentQty + 1 > stock)
+                        {
+                            MessageBox.Show("Cannot add to cart. You already have " + currentQty + " in your cart and only " + stock + " are available for '" + name + "'.", "Out of Stock", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            return;
+                        }
+                        else
+                        {
+                            da.ExecuteDMLQuery("UPDATE Cart SET Quantity = Quantity + 1 WHERE CartID = " + cartId);
+                            MessageBox.Show("Product quantity increased in cart!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                    }
+                    else
+                    {
+                        if (stock < 1)
+                        {
+                            MessageBox.Show("Cannot add to cart. '" + name + "' is out of stock.", "Out of Stock", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            return;
+                        }
+                        else
+                        {
+                            string query = "INSERT INTO Cart (CustomerID, ProductID, Quantity) VALUES (" + customerId + ", " + productId + ", 1)";
+                            da.ExecuteDMLQuery(query);
+                            MessageBox.Show("Product added to cart!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                    }
+                }
             }
             else
             {

@@ -179,7 +179,23 @@ namespace SmartphoneCoverShop
             {
                 int cartId = Convert.ToInt32(dgvCart.SelectedRows[0].Cells["CartID"].Value);
                 int qty = (int)numQuantity.Value;
+                
                 DataAccess da = new DataAccess();
+                
+                // Validate stock before updating cart
+                DataTable dtProduct = da.ExecuteQueryTable("SELECT p.StockQuantity, p.ProductName FROM Cart c INNER JOIN Products p ON c.ProductID = p.ProductID WHERE c.CartID = " + cartId);
+                if (dtProduct.Rows.Count > 0)
+                {
+                    int availableStock = Convert.ToInt32(dtProduct.Rows[0]["StockQuantity"]);
+                    string pName = dtProduct.Rows[0]["ProductName"].ToString();
+                    
+                    if (qty > availableStock)
+                    {
+                        MessageBox.Show("Cannot update. Only " + availableStock + " units available for '" + pName + "'.", "Out of Stock", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+                }
+                
                 da.ExecuteDMLQuery("UPDATE Cart SET Quantity = " + qty + " WHERE CartID = " + cartId);
                 LoadCart();
             }
