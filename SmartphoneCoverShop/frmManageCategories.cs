@@ -9,7 +9,7 @@ namespace SmartphoneCoverShop
     {
         private DataGridView dgvCategories;
         private TextBox txtCategoryName;
-        private TextBox txtDescription;
+        
         private CheckBox chkIsActive;
         private Button btnAdd;
         private Button btnUpdate;
@@ -30,7 +30,7 @@ namespace SmartphoneCoverShop
         {
             this.dgvCategories = new DataGridView();
             this.txtCategoryName = new TextBox();
-            this.txtDescription = new TextBox();
+            
             this.chkIsActive = new CheckBox();
             this.btnAdd = new Button();
             this.btnUpdate = new Button();
@@ -49,9 +49,9 @@ namespace SmartphoneCoverShop
             this.lblName.Location = new Point(20, 20);
             this.lblName.Text = "Category Name:";
             
-            this.lblDesc.AutoSize = true;
-            this.lblDesc.Location = new Point(20, 60);
-            this.lblDesc.Text = "Description:";
+            
+            
+            
 
             this.lblSearch.AutoSize = true;
             this.lblSearch.Location = new Point(320, 20);
@@ -61,8 +61,8 @@ namespace SmartphoneCoverShop
             this.txtCategoryName.Location = new Point(130, 17);
             this.txtCategoryName.Size = new Size(160, 23);
 
-            this.txtDescription.Location = new Point(130, 57);
-            this.txtDescription.Size = new Size(160, 23);
+            
+            
 
             this.chkIsActive.Location = new Point(130, 90);
             this.chkIsActive.Text = "Is Active";
@@ -114,10 +114,10 @@ namespace SmartphoneCoverShop
             this.BackColor = Color.White;
             this.ClientSize = new Size(600, 400);
             this.Controls.Add(this.lblName);
-            this.Controls.Add(this.lblDesc);
+            
             this.Controls.Add(this.lblSearch);
             this.Controls.Add(this.txtCategoryName);
-            this.Controls.Add(this.txtDescription);
+            
             this.Controls.Add(this.chkIsActive);
             this.Controls.Add(this.txtSearch);
             this.Controls.Add(this.btnAdd);
@@ -140,11 +140,11 @@ namespace SmartphoneCoverShop
             {
                 using (DataAccess da = new DataAccess())
                 {
-                    string query = "SELECT CategoryID, CategoryName, Description, Status, CreatedAt FROM Categories";
+                    string query = "SELECT CategoryID, CategoryName, Status FROM Categories";
                     if (!string.IsNullOrEmpty(searchTerm))
                     {
                         string safeTerm = searchTerm.Replace("'", "''");
-                        query += string.Format(" WHERE CategoryName LIKE '%{0}%' OR Description LIKE '%{0}%'", safeTerm);
+                        query += string.Format(" WHERE CategoryName LIKE '%{0}%' ", safeTerm);
                     }
                     DataTable dt = da.ExecuteQueryTable(query);
                     dgvCategories.DataSource = dt;
@@ -168,7 +168,7 @@ namespace SmartphoneCoverShop
                 DataGridViewRow row = dgvCategories.Rows[e.RowIndex];
                 selectedId = Convert.ToInt32(row.Cells["CategoryID"].Value);
                 txtCategoryName.Text = row.Cells["CategoryName"].Value.ToString();
-                txtDescription.Text = row.Cells["Description"].Value.ToString();
+                
                 chkIsActive.Checked = Convert.ToInt32(row.Cells["Status"].Value) == 1;
             }
         }
@@ -185,9 +185,9 @@ namespace SmartphoneCoverShop
                 using (DataAccess da = new DataAccess())
                 {
                     string safeName = txtCategoryName.Text.Replace("'", "''");
-                    string safeDesc = txtDescription.Text.Replace("'", "''");
+                    
                     int status = chkIsActive.Checked ? 1 : 0;
-                    string query = string.Format("INSERT INTO Categories (CategoryName, Description, Status, CreatedAt) VALUES ('{0}', '{1}', {2}, GETDATE())", safeName, safeDesc, status);
+                    string query = string.Format("INSERT INTO Categories (CategoryName, Status) VALUES ('{0}', {1})", safeName, status);
                     da.ExecuteDMLQuery(query);
                     MessageBox.Show("Category added successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     ClearForm();
@@ -217,9 +217,9 @@ namespace SmartphoneCoverShop
                 using (DataAccess da = new DataAccess())
                 {
                     string safeName = txtCategoryName.Text.Replace("'", "''");
-                    string safeDesc = txtDescription.Text.Replace("'", "''");
+                    
                     int status = chkIsActive.Checked ? 1 : 0;
-                    string query = string.Format("UPDATE Categories SET CategoryName = '{0}', Description = '{1}', Status = {2} WHERE CategoryID = {3}", safeName, safeDesc, status, selectedId);
+                    string query = string.Format("UPDATE Categories SET CategoryName = '{0}', Status = {1} WHERE CategoryID = {2}", safeName, status, selectedId);
                     da.ExecuteDMLQuery(query);
                     MessageBox.Show("Category updated successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     ClearForm();
@@ -270,10 +270,11 @@ namespace SmartphoneCoverShop
         {
             selectedId = 0;
             txtCategoryName.Clear();
-            txtDescription.Clear();
+            
             txtSearch.Clear();
             chkIsActive.Checked = true;
             dgvCategories.ClearSelection();
         }
     }
 }
+

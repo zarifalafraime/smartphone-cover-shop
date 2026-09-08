@@ -79,7 +79,7 @@ namespace SmartphoneCoverShop
             this.dgvProducts.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvProducts.Size = new System.Drawing.Size(550, 400);
             this.dgvProducts.TabIndex = 1;
-            this.dgvProducts.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvProducts_CellClick);
+            this.dgvProducts.SelectionChanged += new System.EventHandler(this.dgvProducts_SelectionChanged);
             // 
             // lblSearch
             // 
@@ -98,7 +98,7 @@ namespace SmartphoneCoverShop
             this.txtSearch.Name = "txtSearch";
             this.txtSearch.Size = new System.Drawing.Size(167, 25);
             this.txtSearch.TabIndex = 3;
-            this.txtSearch.TextChanged += new System.EventHandler(this.txtSearch_TextChanged);
+            
             // 
             // txtProductID
             // 
@@ -213,7 +213,7 @@ namespace SmartphoneCoverShop
             this.btnAdd.TabIndex = 15;
             this.btnAdd.Text = "Add";
             this.btnAdd.UseVisualStyleBackColor = false;
-            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
+            this.btnAdd.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // btnUpdate
             // 
@@ -309,3 +309,4 @@ namespace SmartphoneCoverShop
         }
     }
 }
+
