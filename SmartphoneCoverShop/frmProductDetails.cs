@@ -85,7 +85,7 @@ namespace SmartphoneCoverShop
             lblCoupons.ForeColor = Color.FromArgb(47, 126, 94);
             lblCoupons.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             lblCoupons.Location = new Point(150, 190);
-            lblCoupons.Text = "Shop Coupons: DISCOUNT10 (10%), HALFPRICE (50%)";
+            lblCoupons.Text = "Loading coupons...";
 
             this.dgvReviews.Location = new Point(20, 240);
             this.dgvReviews.Size = new Size(500, 150);
@@ -171,16 +171,21 @@ namespace SmartphoneCoverShop
         {
             DataAccess da = new DataAccess();
             DataTable dt = da.ExecuteQueryTable("SELECT o.OfferName, o.DiscountValue FROM Offers o INNER JOIN Products p ON o.ShopID = p.ShopID WHERE p.ProductID = " + productId + " AND o.Status = 'Active'");
-            string couponsText = "Shop Coupons: ";
-            foreach (DataRow row in dt.Rows)
-            {
-                couponsText += row["OfferName"].ToString() + " (" + row["DiscountValue"].ToString() + "% off)  ";
-            }
+            
+            string couponsText = "";
             if (dt.Rows.Count > 0)
-                
-            foreach (Control c in this.Controls) { if (c is Label && c.ForeColor == Color.FromArgb(47, 126, 94)) { c.Text = couponsText; break; } }
+            {
+                couponsText = "Shop Coupons: ";
+                foreach (DataRow row in dt.Rows)
+                {
+                    couponsText += row["OfferName"].ToString() + " (" + Convert.ToDecimal(row["DiscountValue"]).ToString("0.##") + "% off)  ";
+                }
+            }
             else
-            // Update the control we added dynamically
+            {
+                couponsText = "No coupons available.";
+            }
+
             foreach (Control c in this.Controls)
             {
                 if (c is Label && c.ForeColor == Color.FromArgb(47, 126, 94))
