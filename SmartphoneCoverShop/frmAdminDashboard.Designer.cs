@@ -21,87 +21,188 @@ namespace SmartphoneCoverShop
             this.lblWelcome = new System.Windows.Forms.Label();
             this.btnManageProfile = new System.Windows.Forms.Button();
             this.btnManageProducts = new System.Windows.Forms.Button();
+            this.btnManageCoupons = new System.Windows.Forms.Button();
             this.btnLogout = new System.Windows.Forms.Button();
+            this.lblTotalSold = new System.Windows.Forms.Label();
+            this.lblTotalRevenue = new System.Windows.Forms.Label();
+            
+            this.lblInventory = new System.Windows.Forms.Label();
+            this.dgvInventory = new System.Windows.Forms.DataGridView();
+            this.lblSalesHistory = new System.Windows.Forms.Label();
+            this.dgvSalesHistory = new System.Windows.Forms.DataGridView();
+            this.lblReviews = new System.Windows.Forms.Label();
+            this.dgvReviews = new System.Windows.Forms.DataGridView();
+
+            ((System.ComponentModel.ISupportInitialize)(this.dgvInventory)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvSalesHistory)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvReviews)).BeginInit();
             this.SuspendLayout();
             
-            // 
             // lblTitle
-            // 
             this.lblTitle.AutoSize = true;
             this.lblTitle.Font = new System.Drawing.Font("Segoe UI", 20F, System.Drawing.FontStyle.Bold);
             this.lblTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(116)))), ((int)(((byte)(86)))), ((int)(((byte)(174)))));
-            this.lblTitle.Location = new System.Drawing.Point(30, 30);
+            this.lblTitle.Location = new System.Drawing.Point(30, 20);
             this.lblTitle.Name = "lblTitle";
             this.lblTitle.Size = new System.Drawing.Size(252, 37);
             this.lblTitle.TabIndex = 0;
             this.lblTitle.Text = "Admin Dashboard";
             
-            // 
             // lblWelcome
-            // 
             this.lblWelcome.AutoSize = true;
             this.lblWelcome.Font = new System.Drawing.Font("Segoe UI", 12F);
-            this.lblWelcome.Location = new System.Drawing.Point(35, 75);
+            this.lblWelcome.Location = new System.Drawing.Point(35, 65);
             this.lblWelcome.Name = "lblWelcome";
             this.lblWelcome.Size = new System.Drawing.Size(115, 21);
             this.lblWelcome.TabIndex = 1;
             this.lblWelcome.Text = "Welcome, User";
+
+            // lblTotalSold
+            this.lblTotalSold.AutoSize = true;
+            this.lblTotalSold.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+            this.lblTotalSold.ForeColor = System.Drawing.Color.Green;
+            this.lblTotalSold.Location = new System.Drawing.Point(35, 100);
+            this.lblTotalSold.Name = "lblTotalSold";
+            this.lblTotalSold.Size = new System.Drawing.Size(160, 21);
+            this.lblTotalSold.TabIndex = 2;
+            this.lblTotalSold.Text = "Products Sold: 0";
+
+            // lblTotalRevenue
+            this.lblTotalRevenue.AutoSize = true;
+            this.lblTotalRevenue.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+            this.lblTotalRevenue.ForeColor = System.Drawing.Color.Green;
+            this.lblTotalRevenue.Location = new System.Drawing.Point(220, 100);
+            this.lblTotalRevenue.Name = "lblTotalRevenue";
+            this.lblTotalRevenue.Size = new System.Drawing.Size(160, 21);
+            this.lblTotalRevenue.TabIndex = 3;
+            this.lblTotalRevenue.Text = "Total Revenue: $0.00";
             
-            // 
             // btnManageProfile
-            // 
             this.btnManageProfile.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(116)))), ((int)(((byte)(86)))), ((int)(((byte)(174)))));
             this.btnManageProfile.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnManageProfile.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+            this.btnManageProfile.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.btnManageProfile.ForeColor = System.Drawing.Color.White;
-            this.btnManageProfile.Location = new System.Drawing.Point(40, 130);
+            this.btnManageProfile.Location = new System.Drawing.Point(40, 140);
             this.btnManageProfile.Name = "btnManageProfile";
-            this.btnManageProfile.Size = new System.Drawing.Size(200, 60);
-            this.btnManageProfile.TabIndex = 2;
-            this.btnManageProfile.Text = "Manage Shop Profile";
+            this.btnManageProfile.Size = new System.Drawing.Size(160, 40);
+            this.btnManageProfile.TabIndex = 4;
+            this.btnManageProfile.Text = "Shop Profile";
             this.btnManageProfile.UseVisualStyleBackColor = false;
             this.btnManageProfile.Click += new System.EventHandler(this.btnManageProfile_Click);
             
-            // 
             // btnManageProducts
-            // 
             this.btnManageProducts.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(116)))), ((int)(((byte)(86)))), ((int)(((byte)(174)))));
             this.btnManageProducts.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnManageProducts.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+            this.btnManageProducts.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.btnManageProducts.ForeColor = System.Drawing.Color.White;
-            this.btnManageProducts.Location = new System.Drawing.Point(260, 130);
+            this.btnManageProducts.Location = new System.Drawing.Point(210, 140);
             this.btnManageProducts.Name = "btnManageProducts";
-            this.btnManageProducts.Size = new System.Drawing.Size(200, 60);
-            this.btnManageProducts.TabIndex = 3;
+            this.btnManageProducts.Size = new System.Drawing.Size(160, 40);
+            this.btnManageProducts.TabIndex = 5;
             this.btnManageProducts.Text = "Manage Products";
             this.btnManageProducts.UseVisualStyleBackColor = false;
             this.btnManageProducts.Click += new System.EventHandler(this.btnManageProducts_Click);
+
+            // btnManageCoupons
+            this.btnManageCoupons.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(116)))), ((int)(((byte)(86)))), ((int)(((byte)(174)))));
+            this.btnManageCoupons.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnManageCoupons.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            this.btnManageCoupons.ForeColor = System.Drawing.Color.White;
+            this.btnManageCoupons.Location = new System.Drawing.Point(380, 140);
+            this.btnManageCoupons.Name = "btnManageCoupons";
+            this.btnManageCoupons.Size = new System.Drawing.Size(160, 40);
+            this.btnManageCoupons.TabIndex = 6;
+            this.btnManageCoupons.Text = "Manage Coupons";
+            this.btnManageCoupons.UseVisualStyleBackColor = false;
+            this.btnManageCoupons.Click += new System.EventHandler(this.btnManageCoupons_Click);
             
-            // 
             // btnLogout
-            // 
             this.btnLogout.BackColor = System.Drawing.Color.White;
             this.btnLogout.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnLogout.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.btnLogout.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(116)))), ((int)(((byte)(86)))), ((int)(((byte)(174)))));
-            this.btnLogout.Location = new System.Drawing.Point(40, 220);
+            this.btnLogout.Location = new System.Drawing.Point(900, 20);
             this.btnLogout.Name = "btnLogout";
             this.btnLogout.Size = new System.Drawing.Size(100, 35);
-            this.btnLogout.TabIndex = 4;
+            this.btnLogout.TabIndex = 7;
             this.btnLogout.Text = "Log Out";
             this.btnLogout.UseVisualStyleBackColor = false;
             this.btnLogout.Click += new System.EventHandler(this.btnLogout_Click);
+
+            // lblInventory
+            this.lblInventory.AutoSize = true;
+            this.lblInventory.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+            this.lblInventory.Location = new System.Drawing.Point(35, 200);
+            this.lblInventory.Name = "lblInventory";
+            this.lblInventory.Size = new System.Drawing.Size(193, 21);
+            this.lblInventory.TabIndex = 8;
+            this.lblInventory.Text = "Inventory / Stock Status";
+
+            // dgvInventory
+            this.dgvInventory.AllowUserToAddRows = false;
+            this.dgvInventory.AllowUserToDeleteRows = false;
+            this.dgvInventory.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvInventory.Location = new System.Drawing.Point(40, 230);
+            this.dgvInventory.Name = "dgvInventory";
+            this.dgvInventory.ReadOnly = true;
+            this.dgvInventory.Size = new System.Drawing.Size(460, 250);
+            this.dgvInventory.TabIndex = 9;
+
+            // lblSalesHistory
+            this.lblSalesHistory.AutoSize = true;
+            this.lblSalesHistory.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+            this.lblSalesHistory.Location = new System.Drawing.Point(525, 200);
+            this.lblSalesHistory.Name = "lblSalesHistory";
+            this.lblSalesHistory.Size = new System.Drawing.Size(108, 21);
+            this.lblSalesHistory.TabIndex = 10;
+            this.lblSalesHistory.Text = "Sales History";
+
+            // dgvSalesHistory
+            this.dgvSalesHistory.AllowUserToAddRows = false;
+            this.dgvSalesHistory.AllowUserToDeleteRows = false;
+            this.dgvSalesHistory.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvSalesHistory.Location = new System.Drawing.Point(530, 230);
+            this.dgvSalesHistory.Name = "dgvSalesHistory";
+            this.dgvSalesHistory.ReadOnly = true;
+            this.dgvSalesHistory.Size = new System.Drawing.Size(470, 250);
+            this.dgvSalesHistory.TabIndex = 11;
+
+            // lblReviews
+            this.lblReviews.AutoSize = true;
+            this.lblReviews.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+            this.lblReviews.Location = new System.Drawing.Point(35, 500);
+            this.lblReviews.Name = "lblReviews";
+            this.lblReviews.Size = new System.Drawing.Size(165, 21);
+            this.lblReviews.TabIndex = 12;
+            this.lblReviews.Text = "Reviews and Ratings";
+
+            // dgvReviews
+            this.dgvReviews.AllowUserToAddRows = false;
+            this.dgvReviews.AllowUserToDeleteRows = false;
+            this.dgvReviews.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvReviews.Location = new System.Drawing.Point(40, 530);
+            this.dgvReviews.Name = "dgvReviews";
+            this.dgvReviews.ReadOnly = true;
+            this.dgvReviews.Size = new System.Drawing.Size(960, 200);
+            this.dgvReviews.TabIndex = 13;
             
-            // 
             // frmAdminDashboard
-            // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(600, 300);
+            this.ClientSize = new System.Drawing.Size(1040, 760);
+            this.Controls.Add(this.dgvReviews);
+            this.Controls.Add(this.lblReviews);
+            this.Controls.Add(this.dgvSalesHistory);
+            this.Controls.Add(this.lblSalesHistory);
+            this.Controls.Add(this.dgvInventory);
+            this.Controls.Add(this.lblInventory);
             this.Controls.Add(this.btnLogout);
+            this.Controls.Add(this.btnManageCoupons);
             this.Controls.Add(this.btnManageProducts);
             this.Controls.Add(this.btnManageProfile);
+            this.Controls.Add(this.lblTotalRevenue);
+            this.Controls.Add(this.lblTotalSold);
             this.Controls.Add(this.lblWelcome);
             this.Controls.Add(this.lblTitle);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
@@ -109,17 +210,31 @@ namespace SmartphoneCoverShop
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Admin Dashboard";
             this.Load += new System.EventHandler(this.frmDashboard_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvInventory)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvSalesHistory)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvReviews)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
 
         #endregion
 
         private System.Windows.Forms.Label lblTitle;
         private System.Windows.Forms.Label lblWelcome;
+        private System.Windows.Forms.Label lblTotalSold;
+        private System.Windows.Forms.Label lblTotalRevenue;
         private System.Windows.Forms.Button btnManageProfile;
         private System.Windows.Forms.Button btnManageProducts;
+        private System.Windows.Forms.Button btnManageCoupons;
         private System.Windows.Forms.Button btnLogout;
+        
+        private System.Windows.Forms.Label lblInventory;
+        private System.Windows.Forms.DataGridView dgvInventory;
+        
+        private System.Windows.Forms.Label lblSalesHistory;
+        private System.Windows.Forms.DataGridView dgvSalesHistory;
+
+        private System.Windows.Forms.Label lblReviews;
+        private System.Windows.Forms.DataGridView dgvReviews;
     }
 }
