@@ -20,13 +20,14 @@ GO
 IF OBJECT_ID('Users', 'U') IS NOT NULL DROP TABLE Users;
 GO
 
--- 4.2.1 Users (Dropped Phone)
+-- 4.2.1 Users (Restored Phone)
 CREATE TABLE Users (
     UserID INT IDENTITY(1,1) PRIMARY KEY,
     FullName VARCHAR(100) NOT NULL,
     Email VARCHAR(100) UNIQUE NOT NULL,
     Password VARCHAR(255) NOT NULL,
     UserType VARCHAR(20) NOT NULL,
+    Phone VARCHAR(15) NULL,
     CreatedAt DATETIME DEFAULT GETDATE(),
     Status INT NOT NULL
 );

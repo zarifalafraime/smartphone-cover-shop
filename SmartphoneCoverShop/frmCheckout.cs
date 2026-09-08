@@ -122,20 +122,47 @@ namespace SmartphoneCoverShop
 
         private void btnApplyCoupon_Click(object sender, EventArgs e)
         {
-            string code = txtCoupon.Text.Trim().ToUpper();
-            if (code == "DISCOUNT10") // Dummy coupon logic
+            string code = txtCoupon.Text.Trim();
+            if (string.IsNullOrEmpty(code))
             {
-                discount = originalTotal * 0.10m;
-                finalTotal = originalTotal - discount;
-                MessageBox.Show("10% Discount applied!");
-                UpdateTotalLabel();
+                MessageBox.Show("Please enter a coupon code.");
+                return;
             }
-            else if (code == "HALFPRICE")
+
+            DataAccess da = new DataAccess();
+            // Check if coupon exists and is active
+            string offerQuery = "SELECT ShopID, DiscountValue FROM Offers WHERE OfferName = '" + code.Replace("'", "''") + "' AND Status = 'Active'";
+            DataTable dtOffer = da.ExecuteQueryTable(offerQuery);
+
+            if (dtOffer.Rows.Count > 0)
             {
-                discount = originalTotal * 0.50m;
-                finalTotal = originalTotal - discount;
-                MessageBox.Show("50% Discount applied!");
-                UpdateTotalLabel();
+                int shopId = Convert.ToInt32(dtOffer.Rows[0]["ShopID"]);
+                decimal discountPercentage = Convert.ToDecimal(dtOffer.Rows[0]["DiscountValue"]);
+
+                // Calculate subtotal for items from this specific shop
+                string cartShopQuery = "SELECT p.Price, c.Quantity FROM Cart c INNER JOIN Products p ON c.ProductID = p.ProductID WHERE c.CustomerID = " + customerId + " AND p.ShopID = " + shopId;
+                DataTable dtCartShop = da.ExecuteQueryTable(cartShopQuery);
+
+                decimal shopSubtotal = 0;
+                foreach (DataRow row in dtCartShop.Rows)
+                {
+                    shopSubtotal += Convert.ToDecimal(row["Price"]) * Convert.ToInt32(row["Quantity"]);
+                }
+
+                if (shopSubtotal > 0)
+                {
+                    discount = shopSubtotal * (discountPercentage / 100m);
+                    finalTotal = originalTotal - discount;
+                    MessageBox.Show(discountPercentage + "% Discount applied to eligible items from the shop!");
+                    UpdateTotalLabel();
+                }
+                else
+                {
+                    MessageBox.Show("This coupon is valid, but your cart doesn't contain any items from the shop that issued it.");
+                    discount = 0;
+                    finalTotal = originalTotal;
+                    UpdateTotalLabel();
+                }
             }
             else
             {
