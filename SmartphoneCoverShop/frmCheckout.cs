@@ -77,7 +77,7 @@ namespace SmartphoneCoverShop
             this.btnCancel.Size = new Size(100, 40);
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = false;
-            this.btnCancel.Click += new EventHandler((s, e) => this.Close());
+            this.btnCancel.Click += new EventHandler(this.btnCancel_Click);
 
             this.ClientSize = new Size(300, 300);
             this.Controls.Add(this.lblTitle);
@@ -225,6 +225,11 @@ namespace SmartphoneCoverShop
             }
             
             MessageBox.Show("Payment successful! Your order has been placed and stock has been updated.");
+            this.Close();
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
             this.Close();
         }
     }
