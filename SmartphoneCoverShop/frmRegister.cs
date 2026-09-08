@@ -65,13 +65,14 @@ namespace SmartphoneCoverShop
                     }
 
                     string register =
-                        "INSERT INTO Users (FullName, Email, [Password], UserType, [Status]) " +
-                        "VALUES (@FullName, @Email, @Password, @UserType, @Status)";
+                        "INSERT INTO Users (FullName, Email, Phone, [Password], UserType, [Status]) " +
+                        "VALUES (@FullName, @Email, @Phone, @Password, @UserType, @Status)";
 
                     SqlCommand cmd = new SqlCommand(register, con);
 
                     cmd.Parameters.AddWithValue("@FullName", txtFullName.Text.Trim());
                     cmd.Parameters.AddWithValue("@Email", txtEmail.Text.Trim());
+                    cmd.Parameters.AddWithValue("@Phone", string.IsNullOrEmpty(txtPhone.Text.Trim()) ? (object)DBNull.Value : txtPhone.Text.Trim());
                     cmd.Parameters.AddWithValue("@Password", txtPassword.Text);
                     cmd.Parameters.AddWithValue("@UserType", selectedRole);
                                         cmd.Parameters.AddWithValue("@Status", initialStatus);
@@ -82,6 +83,7 @@ namespace SmartphoneCoverShop
 
                     txtFullName.Text = "";
                     txtEmail.Text = "";
+                    txtPhone.Text = "";
                                         txtPassword.Text = "";
                     txtConPassword.Text = "";
                     if (cmbUserType.Items.Count > 0) cmbUserType.SelectedIndex = 0;
@@ -142,6 +144,7 @@ namespace SmartphoneCoverShop
         {
             txtFullName.Text = "";
             txtEmail.Text = "";
+            txtPhone.Text = "";
                         txtPassword.Text = "";
             txtConPassword.Text = "";
             if (cmbUserType.Items.Count > 0) cmbUserType.SelectedIndex = 0;

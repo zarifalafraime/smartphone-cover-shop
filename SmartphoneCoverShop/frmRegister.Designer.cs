@@ -32,6 +32,8 @@ namespace SmartphoneCoverShop
             this.txtFullName = new System.Windows.Forms.TextBox();
             this.lblEmail = new System.Windows.Forms.Label();
             this.txtEmail = new System.Windows.Forms.TextBox();
+            this.lblPhone = new System.Windows.Forms.Label();
+            this.txtPhone = new System.Windows.Forms.TextBox();
             
             
             this.lblUserType = new System.Windows.Forms.Label();
@@ -86,6 +88,28 @@ namespace SmartphoneCoverShop
             this.txtEmail.Name = "txtEmail";
             this.txtEmail.Size = new System.Drawing.Size(216, 26);
             this.txtEmail.TabIndex = 1;
+            // 
+            // 
+            // lblPhone
+            // 
+            this.lblPhone = new System.Windows.Forms.Label();
+            this.lblPhone.AutoSize = true;
+            this.lblPhone.Location = new System.Drawing.Point(32, 194);
+            this.lblPhone.Name = "lblPhone";
+            this.lblPhone.Size = new System.Drawing.Size(46, 17);
+            this.lblPhone.TabIndex = 11;
+            this.lblPhone.Text = "Phone";
+            // 
+            // txtPhone
+            // 
+            this.txtPhone.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(231)))), ((int)(((byte)(233)))));
+            this.txtPhone.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtPhone.Font = new System.Drawing.Font("MS UI Gothic", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtPhone.Location = new System.Drawing.Point(35, 214);
+            this.txtPhone.Multiline = true;
+            this.txtPhone.Name = "txtPhone";
+            this.txtPhone.Size = new System.Drawing.Size(216, 26);
+            this.txtPhone.TabIndex = 12;
             // 
             // lblUserType
             // 
@@ -258,6 +282,8 @@ namespace SmartphoneCoverShop
             this.Controls.Add(this.lblUserType);
             
             
+            this.Controls.Add(this.txtPhone);
+            this.Controls.Add(this.lblPhone);
             this.Controls.Add(this.txtEmail);
             this.Controls.Add(this.lblEmail);
             this.Controls.Add(this.txtFullName);
@@ -281,6 +307,8 @@ namespace SmartphoneCoverShop
         private System.Windows.Forms.TextBox txtFullName;
         private System.Windows.Forms.Label lblEmail;
         private System.Windows.Forms.TextBox txtEmail;
+        private System.Windows.Forms.Label lblPhone;
+        private System.Windows.Forms.TextBox txtPhone;
         private System.Windows.Forms.Label lblUserType;
         private System.Windows.Forms.ComboBox cmbUserType;
         private System.Windows.Forms.Label Password;

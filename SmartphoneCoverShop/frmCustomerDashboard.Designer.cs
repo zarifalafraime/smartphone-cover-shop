@@ -94,13 +94,42 @@ namespace SmartphoneCoverShop
             this.btnOrderHistory.Click += new System.EventHandler(this.btnOrderHistory_Click);
             
             // 
+            // 
+            // lblCoupons
+            // 
+            this.lblCoupons = new System.Windows.Forms.Label();
+            this.lblCoupons.AutoSize = true;
+            this.lblCoupons.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+            this.lblCoupons.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(116)))), ((int)(((byte)(86)))), ((int)(((byte)(174)))));
+            this.lblCoupons.Location = new System.Drawing.Point(36, 220);
+            this.lblCoupons.Name = "lblCoupons";
+            this.lblCoupons.Size = new System.Drawing.Size(149, 21);
+            this.lblCoupons.TabIndex = 6;
+            this.lblCoupons.Text = "Available Coupons";
+            
+            // 
+            // dgvCoupons
+            // 
+            this.dgvCoupons = new System.Windows.Forms.DataGridView();
+            this.dgvCoupons.AllowUserToAddRows = false;
+            this.dgvCoupons.AllowUserToDeleteRows = false;
+            this.dgvCoupons.BackgroundColor = System.Drawing.Color.White;
+            this.dgvCoupons.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.dgvCoupons.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvCoupons.Location = new System.Drawing.Point(40, 250);
+            this.dgvCoupons.Name = "dgvCoupons";
+            this.dgvCoupons.ReadOnly = true;
+            this.dgvCoupons.Size = new System.Drawing.Size(540, 150);
+            this.dgvCoupons.TabIndex = 7;
+            
+            // 
             // btnLogout
             // 
             this.btnLogout.BackColor = System.Drawing.Color.White;
             this.btnLogout.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnLogout.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.btnLogout.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(116)))), ((int)(((byte)(86)))), ((int)(((byte)(174)))));
-            this.btnLogout.Location = new System.Drawing.Point(40, 220);
+            this.btnLogout.Location = new System.Drawing.Point(40, 420);
             this.btnLogout.Name = "btnLogout";
             this.btnLogout.Size = new System.Drawing.Size(100, 35);
             this.btnLogout.TabIndex = 4;
@@ -114,7 +143,9 @@ namespace SmartphoneCoverShop
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(600, 300);
+            this.ClientSize = new System.Drawing.Size(620, 480);
+            this.Controls.Add(this.dgvCoupons);
+            this.Controls.Add(this.lblCoupons);
             this.Controls.Add(this.btnLogout);
             this.Controls.Add(this.btnOrderHistory);
             this.Controls.Add(this.btnMyCart);
@@ -126,6 +157,7 @@ namespace SmartphoneCoverShop
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Customer Dashboard";
             this.Load += new System.EventHandler(this.frmDashboard_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvCoupons)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -139,5 +171,7 @@ namespace SmartphoneCoverShop
         private System.Windows.Forms.Button btnMyCart;
         private System.Windows.Forms.Button btnOrderHistory;
         private System.Windows.Forms.Button btnLogout;
+        private System.Windows.Forms.Label lblCoupons;
+        private System.Windows.Forms.DataGridView dgvCoupons;
     }
 }
