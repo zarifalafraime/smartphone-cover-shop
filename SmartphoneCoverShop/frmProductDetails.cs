@@ -85,7 +85,7 @@ namespace SmartphoneCoverShop
             lblCoupons.ForeColor = Color.FromArgb(47, 126, 94);
             lblCoupons.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             lblCoupons.Location = new Point(150, 190);
-            lblCoupons.Text = "Shop Coupons: DISCOUNT10 (10%), HALFPRICE (50%)";
+            lblCoupons.Text = "Loading coupons...";
 
             this.dgvReviews.Location = new Point(20, 240);
             this.dgvReviews.Size = new Size(500, 150);
@@ -119,7 +119,8 @@ namespace SmartphoneCoverShop
             this.btnClose.Location = new Point(400, 510);
             this.btnClose.Size = new Size(120, 35);
             this.btnClose.Text = "Close";
-            this.btnClose.Click += new EventHandler((s, e) => this.Close());
+            this.btnClose.UseVisualStyleBackColor = false;
+            this.btnClose.Click += new EventHandler(this.btnClose_Click);
 
             this.ClientSize = new Size(550, 560);
             this.Controls.Add(this.lblName);
@@ -170,16 +171,21 @@ namespace SmartphoneCoverShop
         {
             DataAccess da = new DataAccess();
             DataTable dt = da.ExecuteQueryTable("SELECT o.OfferName, o.DiscountValue FROM Offers o INNER JOIN Products p ON o.ShopID = p.ShopID WHERE p.ProductID = " + productId + " AND o.Status = 'Active'");
-            string couponsText = "Shop Coupons: ";
-            foreach (DataRow row in dt.Rows)
-            {
-                couponsText += row["OfferName"].ToString() + " (" + row["DiscountValue"].ToString() + "% off)  ";
-            }
+            
+            string couponsText = "";
             if (dt.Rows.Count > 0)
-                
-            foreach (Control c in this.Controls) { if (c is Label && c.ForeColor == Color.FromArgb(47, 126, 94)) { c.Text = couponsText; break; } }
+            {
+                couponsText = "Shop Coupons: ";
+                foreach (DataRow row in dt.Rows)
+                {
+                    couponsText += row["OfferName"].ToString() + " (" + Convert.ToDecimal(row["DiscountValue"]).ToString("0.##") + "% off)  ";
+                }
+            }
             else
-            // Update the control we added dynamically
+            {
+                couponsText = "No coupons available.";
+            }
+
             foreach (Control c in this.Controls)
             {
                 if (c is Label && c.ForeColor == Color.FromArgb(47, 126, 94))
@@ -200,8 +206,46 @@ namespace SmartphoneCoverShop
         private void btnAddToCart_Click(object sender, EventArgs e)
         {
             DataAccess da = new DataAccess();
-            da.ExecuteDMLQuery("INSERT INTO Cart (CustomerID, ProductID, Quantity) VALUES (" + customerId + ", " + productId + ", 1)");
-            MessageBox.Show("Product added to cart!");
+
+            // Check stock
+            DataTable dtProduct = da.ExecuteQueryTable("SELECT StockQuantity, ProductName FROM Products WHERE ProductID = " + productId);
+            if (dtProduct.Rows.Count > 0)
+            {
+                int stock = Convert.ToInt32(dtProduct.Rows[0]["StockQuantity"]);
+                string name = dtProduct.Rows[0]["ProductName"].ToString();
+
+                // Check if already in cart
+                DataTable dtCart = da.ExecuteQueryTable("SELECT CartID, Quantity FROM Cart WHERE CustomerID = " + customerId + " AND ProductID = " + productId);
+                if (dtCart.Rows.Count > 0)
+                {
+                    int currentQty = Convert.ToInt32(dtCart.Rows[0]["Quantity"]);
+                    int cartId = Convert.ToInt32(dtCart.Rows[0]["CartID"]);
+
+                    if (currentQty + 1 > stock)
+                    {
+                        MessageBox.Show("Cannot add to cart. You already have " + currentQty + " in your cart and only " + stock + " are available for '" + name + "'.", "Out of Stock", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+                    else
+                    {
+                        da.ExecuteDMLQuery("UPDATE Cart SET Quantity = Quantity + 1 WHERE CartID = " + cartId);
+                        MessageBox.Show("Product quantity increased in cart!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+                else
+                {
+                    if (stock < 1)
+                    {
+                        MessageBox.Show("Cannot add to cart. '" + name + "' is out of stock.", "Out of Stock", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+                    else
+                    {
+                        da.ExecuteDMLQuery("INSERT INTO Cart (CustomerID, ProductID, Quantity) VALUES (" + customerId + ", " + productId + ", 1)");
+                        MessageBox.Show("Product added to cart!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+            }
         }
 
         private void btnAddReview_Click(object sender, EventArgs e)
@@ -218,6 +262,11 @@ namespace SmartphoneCoverShop
             da.ExecuteDMLQuery(query);
             txtReview.Clear();
             LoadReviews();
+        }
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }
