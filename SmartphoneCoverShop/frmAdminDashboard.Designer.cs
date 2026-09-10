@@ -25,6 +25,8 @@ namespace SmartphoneCoverShop
             this.btnLogout = new System.Windows.Forms.Button();
             this.lblTotalSold = new System.Windows.Forms.Label();
             this.lblTotalRevenue = new System.Windows.Forms.Label();
+            this.lblTotalOrders = new System.Windows.Forms.Label();
+            this.lblAvgOrderValue = new System.Windows.Forms.Label();
             this.lblInventory = new System.Windows.Forms.Label();
             this.cmbFilterStock = new System.Windows.Forms.ComboBox();
             this.dgvInventory = new System.Windows.Forms.DataGridView();
@@ -136,6 +138,24 @@ namespace SmartphoneCoverShop
             this.lblTotalRevenue.TabIndex = 3;
             this.lblTotalRevenue.Text = "Total Revenue: $0.00";
             // 
+                        // lblTotalOrders
+            this.lblTotalOrders.AutoSize = true;
+            this.lblTotalOrders.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+            this.lblTotalOrders.ForeColor = System.Drawing.Color.Green;
+            this.lblTotalOrders.Location = new System.Drawing.Point(420, 100);
+            this.lblTotalOrders.Name = "lblTotalOrders";
+            this.lblTotalOrders.Size = new System.Drawing.Size(120, 21);
+            this.lblTotalOrders.TabIndex = 24;
+            this.lblTotalOrders.Text = "Total Orders: 0";
+            // lblAvgOrderValue
+            this.lblAvgOrderValue.AutoSize = true;
+            this.lblAvgOrderValue.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+            this.lblAvgOrderValue.ForeColor = System.Drawing.Color.Green;
+            this.lblAvgOrderValue.Location = new System.Drawing.Point(600, 100);
+            this.lblAvgOrderValue.Name = "lblAvgOrderValue";
+            this.lblAvgOrderValue.Size = new System.Drawing.Size(140, 21);
+            this.lblAvgOrderValue.TabIndex = 25;
+            this.lblAvgOrderValue.Text = "Avg Order: .00";
             // lblInventory
             // 
             this.lblInventory.AutoSize = true;
@@ -229,6 +249,8 @@ namespace SmartphoneCoverShop
             this.Controls.Add(this.btnManageProducts);
             this.Controls.Add(this.btnManageProfile);
             this.Controls.Add(this.lblTotalRevenue);
+            this.Controls.Add(this.lblTotalOrders);
+            this.Controls.Add(this.lblAvgOrderValue);
             this.Controls.Add(this.lblTotalSold);
             this.Controls.Add(this.lblWelcome);
             this.Controls.Add(this.lblTitle);
@@ -250,6 +272,8 @@ namespace SmartphoneCoverShop
         private System.Windows.Forms.Label lblWelcome;
         private System.Windows.Forms.Label lblTotalSold;
         private System.Windows.Forms.Label lblTotalRevenue;
+        private System.Windows.Forms.Label lblTotalOrders;
+        private System.Windows.Forms.Label lblAvgOrderValue;
         private System.Windows.Forms.Button btnManageProfile;
         private System.Windows.Forms.Button btnManageProducts;
         private System.Windows.Forms.Button btnManageCoupons;
@@ -266,5 +290,6 @@ namespace SmartphoneCoverShop
         private System.Windows.Forms.DataGridView dgvReviews;
     }
 }
+
 
 

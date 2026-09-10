@@ -79,7 +79,7 @@ namespace SmartphoneCoverShop
                                             OfferName = @OfferName, 
                                             DiscountValue = @DiscountValue, 
                                             Status = @Status 
-                                           WHERE OfferID = @OfferID";
+                                           WHERE OfferID = @OfferID AND ShopID = @ShopID";
                     da.Sqlcom = new SqlCommand(updateQuery, da.Sqlcon);
                     da.Sqlcom.Parameters.AddWithValue("@OfferID", selectedOfferId);
                 }
@@ -109,7 +109,7 @@ namespace SmartphoneCoverShop
             {
                 using (DataAccess da = new DataAccess())
                 {
-                    string query = "DELETE FROM Offers WHERE OfferID = " + selectedOfferId;
+                    string query = "DELETE FROM Offers WHERE OfferID = " + selectedOfferId + " AND ShopID = " + shopId;
                     da.ExecuteDMLQuery(query);
                     MessageBox.Show("Coupon deleted successfully!");
                     ClearFields();
@@ -150,5 +150,6 @@ namespace SmartphoneCoverShop
         }
     }
 }
+
 
 
