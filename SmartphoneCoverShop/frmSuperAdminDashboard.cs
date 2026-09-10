@@ -93,17 +93,18 @@ namespace SmartphoneCoverShop
                     lblTotalCommissionValue.Text = string.Format("${0:0.00}", totalCommission);
 
                     // Load Shop Ratings
-                    string ratingsQuery = @"
-                        SELECT s.ShopName AS [Shop Name], 
-                               ISNULL(AVG(CAST(r.Rating AS FLOAT)), 0) AS [Average Rating], 
-                               COUNT(r.ReviewID) AS [Total Reviews]
+                    string analyticsQuery = @"
+                        SELECT 
+                            s.ShopName AS [Shop Name],
+                            COUNT(DISTINCT p.ProductID) AS [Total Products Listed],
+                            ISNULL((SELECT SUM(oi.Subtotal) FROM OrderItems oi INNER JOIN Products p2 ON oi.ProductID = p2.ProductID WHERE p2.ShopID = s.ShopID), 0) AS [Total Earnings ($)],
+                            ISNULL((SELECT AVG(CAST(r.Rating AS FLOAT)) FROM Reviews r INNER JOIN Products p3 ON r.ProductID = p3.ProductID WHERE p3.ShopID = s.ShopID), 0) AS [Average Rating]
                         FROM Shops s
                         LEFT JOIN Products p ON s.ShopID = p.ShopID
-                        LEFT JOIN Reviews r ON p.ProductID = r.ProductID
-                        GROUP BY s.ShopName
-                        ORDER BY [Average Rating] DESC";
+                        GROUP BY s.ShopID, s.ShopName
+                        ORDER BY [Total Earnings ($)] DESC";
                     
-                    DataTable dtRatings = da.ExecuteQueryTable(ratingsQuery);
+                    DataTable dtRatings = da.ExecuteQueryTable(analyticsQuery);
                     dgvShopRatings.DataSource = dtRatings;
                 }
             }
