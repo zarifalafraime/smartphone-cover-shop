@@ -109,7 +109,7 @@ namespace SmartphoneCoverShop
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error loading dashboard stats: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Console.WriteLine("Error loading dashboard stats: " + ex.Message);
             }
         }
     }
