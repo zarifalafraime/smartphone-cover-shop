@@ -1,3 +1,10 @@
+-- Create the database if it doesn't exist
+IF NOT EXISTS (SELECT name FROM sys.databases WHERE name = N'SmartphoneCoverShopDB')
+    CREATE DATABASE [SmartphoneCoverShopDB];
+GO
+USE SmartphoneCoverShopDB;
+GO
+
 -- Drop existing tables (reverse order to satisfy foreign keys)
 IF OBJECT_ID('Offers', 'U') IS NOT NULL DROP TABLE Offers;
 GO
@@ -125,15 +132,20 @@ CREATE TABLE Offers (
 );
 GO
 
--- Insert seed users
-INSERT INTO Users (FullName, Email, Password, UserType, Status)
+-- Insert seed users (1 Super Admin, 2 Shop Owners, 3 Customers)
+INSERT INTO Users (FullName, Email, Password, UserType, Status, Phone)
 VALUES 
-('Super Administrator', 'superadmin@covershop.com', 'admin123', 'super_admin', 1),
-('Cover Planet Store', 'shopowner@covershop.com', 'owner123', 'admin', 1),
-('John Doe', 'customer@covershop.com', 'customer123', 'customer', 1);
+('Super Administrator', 'superadmin@covershop.com', 'admin123', 'super_admin', 1, '1234567890'),
+('Cover Planet Store', 'shopowner@covershop.com', 'owner123', 'admin', 1, '1234567891'),
+('Tech Cases Ltd', 'shop2@covershop.com', 'owner123', 'admin', 1, '1234567892'),
+('John Doe', 'customer@covershop.com', 'customer123', 'customer', 1, '1234567893'),
+('Jane Smith', 'customer2@covershop.com', 'customer123', 'customer', 1, '1234567894'),
+('Alice Brown', 'customer3@covershop.com', 'customer123', 'customer', 1, '1234567895');
 GO
 
--- Seed a dummy shop for the admin
+-- Seed dummy shops for the admins
 INSERT INTO Shops (UserID, ShopName, ShopDescription, Status)
-VALUES (2, 'Cover Planet', 'Best covers in town', 1);
+VALUES 
+(2, 'Cover Planet', 'Best covers in town', 1),
+(3, 'Tech Cases', 'Premium tech cases', 1);
 GO
