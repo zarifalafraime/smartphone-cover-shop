@@ -10,7 +10,8 @@ namespace SmartphoneCoverShop
         private DataGridView dgvReviews;
         private Button btnDelete, btnClose;
         private TextBox txtSearch;
-        private Label lblSearch;
+        private Label lblSearch, lblRatingFilter;
+        private ComboBox cmbRatingFilter;
         private int selectedReviewId = 0;
 
         public frmManageReviews()
@@ -26,6 +27,8 @@ namespace SmartphoneCoverShop
             this.btnClose = new Button();
             this.txtSearch = new TextBox();
             this.lblSearch = new Label();
+            this.lblRatingFilter = new Label();
+            this.cmbRatingFilter = new ComboBox();
 
             ((System.ComponentModel.ISupportInitialize)(this.dgvReviews)).BeginInit();
             this.SuspendLayout();
@@ -37,6 +40,17 @@ namespace SmartphoneCoverShop
             this.txtSearch.Location = new Point(230, 17);
             this.txtSearch.Width = 250;
             this.txtSearch.TextChanged += new EventHandler(this.txtSearch_TextChanged);
+
+            this.lblRatingFilter.Text = "Filter Rating:";
+            this.lblRatingFilter.Location = new Point(490, 20);
+            this.lblRatingFilter.AutoSize = true;
+
+            this.cmbRatingFilter.Location = new Point(570, 17);
+            this.cmbRatingFilter.Width = 100;
+            this.cmbRatingFilter.DropDownStyle = ComboBoxStyle.DropDownList;
+            this.cmbRatingFilter.Items.AddRange(new string[] { "All", "1 Star", "2 Stars", "3 Stars", "4 Stars", "5 Stars" });
+            this.cmbRatingFilter.SelectedIndex = 0;
+            this.cmbRatingFilter.SelectedIndexChanged += new EventHandler(this.cmbRatingFilter_SelectedIndexChanged);
 
             this.btnDelete.Text = "Delete Selected Review";
             this.btnDelete.Location = new Point(20, 390);
@@ -68,6 +82,8 @@ namespace SmartphoneCoverShop
 
             this.Controls.Add(lblSearch);
             this.Controls.Add(txtSearch);
+            this.Controls.Add(lblRatingFilter);
+            this.Controls.Add(cmbRatingFilter);
             this.Controls.Add(btnDelete);
             this.Controls.Add(btnClose);
             this.Controls.Add(dgvReviews);
@@ -75,6 +91,11 @@ namespace SmartphoneCoverShop
             ((System.ComponentModel.ISupportInitialize)(this.dgvReviews)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
+        }
+
+        private void cmbRatingFilter_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            LoadData(txtSearch.Text);
         }
 
         private void LoadData(string searchTerm = "")
@@ -88,12 +109,17 @@ namespace SmartphoneCoverShop
                         FROM Reviews r
                         INNER JOIN Users c ON r.CustomerID = c.UserID
                         INNER JOIN Products p ON r.ProductID = p.ProductID
-                        INNER JOIN Shops s ON p.ShopID = s.ShopID";
+                        INNER JOIN Shops s ON p.ShopID = s.ShopID WHERE 1=1";
                     
+                    if (cmbRatingFilter.SelectedIndex > 0)
+                    {
+                        query += string.Format(" AND r.Rating = {0}", cmbRatingFilter.SelectedIndex);
+                    }
+
                     if (!string.IsNullOrEmpty(searchTerm))
                     {
                         string safeTerm = searchTerm.Replace("'", "''");
-                        query += string.Format(" WHERE s.ShopName LIKE '%{0}%' OR p.ProductName LIKE '%{0}%' OR c.FullName LIKE '%{0}%' OR r.Comment LIKE '%{0}%'", safeTerm);
+                        query += string.Format(" AND (s.ShopName LIKE '%{0}%' OR p.ProductName LIKE '%{0}%' OR c.FullName LIKE '%{0}%' OR r.Comment LIKE '%{0}%')", safeTerm);
                     }
                     DataTable dt = da.ExecuteQueryTable(query);
                     dgvReviews.DataSource = dt;

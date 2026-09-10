@@ -8,16 +8,11 @@ namespace SmartphoneCoverShop
     public class frmManageCategories : Form
     {
         private DataGridView dgvCategories;
-        private TextBox txtCategoryName;
-        
+        private TextBox txtCategoryName, txtDescription, txtSearch;
         private CheckBox chkIsActive;
-        private Button btnAdd;
-        private Button btnUpdate;
-        private Button btnDelete;
-        private Button btnClear;
-        private TextBox txtSearch;
-        private Label lblSearch, lblName, lblDesc;
-        
+        private Button btnAdd, btnUpdate, btnDelete, btnClear;
+        private Label lblSearch, lblName, lblDesc, lblStatusFilter;
+        private ComboBox cmbStatusFilter;
         private int selectedId = 0;
 
         public frmManageCategories()
@@ -30,7 +25,7 @@ namespace SmartphoneCoverShop
         {
             this.dgvCategories = new DataGridView();
             this.txtCategoryName = new TextBox();
-            
+            this.txtDescription = new TextBox();
             this.chkIsActive = new CheckBox();
             this.btnAdd = new Button();
             this.btnUpdate = new Button();
@@ -40,6 +35,8 @@ namespace SmartphoneCoverShop
             this.lblSearch = new Label();
             this.lblName = new Label();
             this.lblDesc = new Label();
+            this.lblStatusFilter = new Label();
+            this.cmbStatusFilter = new ComboBox();
 
             ((System.ComponentModel.ISupportInitialize)(this.dgvCategories)).BeginInit();
             this.SuspendLayout();
@@ -48,21 +45,25 @@ namespace SmartphoneCoverShop
             this.lblName.AutoSize = true;
             this.lblName.Location = new Point(20, 20);
             this.lblName.Text = "Category Name:";
-            
-            
-            
-            
+
+            this.lblDesc.AutoSize = true;
+            this.lblDesc.Location = new Point(20, 55);
+            this.lblDesc.Text = "Description:";
 
             this.lblSearch.AutoSize = true;
             this.lblSearch.Location = new Point(320, 20);
             this.lblSearch.Text = "Search:";
 
+            this.lblStatusFilter.AutoSize = true;
+            this.lblStatusFilter.Location = new Point(320, 55);
+            this.lblStatusFilter.Text = "Filter Status:";
+
             // TextBoxes
             this.txtCategoryName.Location = new Point(130, 17);
             this.txtCategoryName.Size = new Size(160, 23);
 
-            
-            
+            this.txtDescription.Location = new Point(130, 52);
+            this.txtDescription.Size = new Size(160, 23);
 
             this.chkIsActive.Location = new Point(130, 90);
             this.chkIsActive.Text = "Is Active";
@@ -71,6 +72,13 @@ namespace SmartphoneCoverShop
             this.txtSearch.Location = new Point(380, 17);
             this.txtSearch.Size = new Size(200, 23);
             this.txtSearch.TextChanged += new EventHandler(this.txtSearch_TextChanged);
+
+            this.cmbStatusFilter.Location = new Point(400, 52);
+            this.cmbStatusFilter.Size = new Size(180, 23);
+            this.cmbStatusFilter.DropDownStyle = ComboBoxStyle.DropDownList;
+            this.cmbStatusFilter.Items.AddRange(new string[] { "All", "Approved (1)", "Inactive (0)" });
+            this.cmbStatusFilter.SelectedIndex = 0;
+            this.cmbStatusFilter.SelectedIndexChanged += new EventHandler(this.cmbStatusFilter_SelectedIndexChanged);
 
             // Buttons
             this.btnAdd.Location = new Point(20, 120);
@@ -114,12 +122,14 @@ namespace SmartphoneCoverShop
             this.BackColor = Color.White;
             this.ClientSize = new Size(600, 400);
             this.Controls.Add(this.lblName);
-            
+            this.Controls.Add(this.lblDesc);
             this.Controls.Add(this.lblSearch);
+            this.Controls.Add(this.lblStatusFilter);
             this.Controls.Add(this.txtCategoryName);
-            
+            this.Controls.Add(this.txtDescription);
             this.Controls.Add(this.chkIsActive);
             this.Controls.Add(this.txtSearch);
+            this.Controls.Add(this.cmbStatusFilter);
             this.Controls.Add(this.btnAdd);
             this.Controls.Add(this.btnUpdate);
             this.Controls.Add(this.btnDelete);
@@ -134,17 +144,27 @@ namespace SmartphoneCoverShop
             this.PerformLayout();
         }
 
+        private void cmbStatusFilter_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            LoadData(txtSearch.Text);
+        }
+
         private void LoadData(string searchTerm = "")
         {
             try
             {
                 using (DataAccess da = new DataAccess())
                 {
-                    string query = "SELECT CategoryID, CategoryName, Status FROM Categories";
+                    string query = "SELECT CategoryID, CategoryName, Status FROM Categories WHERE 1=1";
+
+                    // Status filter
+                    if (cmbStatusFilter.SelectedIndex == 1) query += " AND Status = 1";
+                    else if (cmbStatusFilter.SelectedIndex == 2) query += " AND Status = 0";
+
                     if (!string.IsNullOrEmpty(searchTerm))
                     {
                         string safeTerm = searchTerm.Replace("'", "''");
-                        query += string.Format(" WHERE CategoryName LIKE '%{0}%' ", safeTerm);
+                        query += string.Format(" AND CategoryName LIKE '%{0}%'", safeTerm);
                     }
                     DataTable dt = da.ExecuteQueryTable(query);
                     dgvCategories.DataSource = dt;
