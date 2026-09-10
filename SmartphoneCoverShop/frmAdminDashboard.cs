@@ -24,12 +24,20 @@ namespace SmartphoneCoverShop
             LoggedInUserType = userType;
         }
 
-        private void frmDashboard_Load(object sender, EventArgs e)
+                private void frmDashboard_Load(object sender, EventArgs e)
         {
             if (!string.IsNullOrEmpty(LoggedInFullName))
             {
                 lblWelcome.Text = "Welcome, " + LoggedInFullName + " (Shop Owner)";
             }
+            
+            cmbFilterStock.Items.Add("All");
+            cmbFilterStock.Items.Add("Out of Stock (0)");
+            cmbFilterStock.Items.Add("Low (1-20)");
+            cmbFilterStock.Items.Add("Medium (21-50)");
+            cmbFilterStock.Items.Add("High (51+)");
+            cmbFilterStock.SelectedIndex = 0;
+            
             LoadShopData();
         }
         
@@ -125,6 +133,17 @@ namespace SmartphoneCoverShop
             dgvReviews.DataSource = da.ExecuteQueryTable(query);
         }
 
+                private void cmbFilterStock_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (shopId != 0)
+            {
+                using (DataAccess da = new DataAccess())
+                {
+                    LoadInventory(da);
+                }
+            }
+        }
+
         private void btnManageProfile_Click(object sender, EventArgs e)
         {
             new frmManageShopProfile(LoggedInUserId).ShowDialog();
@@ -154,5 +173,6 @@ namespace SmartphoneCoverShop
         }
     }
 }
+
 
 

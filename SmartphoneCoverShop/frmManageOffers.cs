@@ -16,8 +16,13 @@ namespace SmartphoneCoverShop
             this.shopId = shopId;
         }
 
-        private void frmManageOffers_Load(object sender, EventArgs e)
+                private void frmManageOffers_Load(object sender, EventArgs e)
         {
+            cmbFilterStatus.Items.Add("All");
+            cmbFilterStatus.Items.Add("Active");
+            cmbFilterStatus.Items.Add("Inactive");
+            cmbFilterStatus.SelectedIndex = 0;
+
             LoadOffers();
             cmbStatus.SelectedIndex = 0;
         }
@@ -36,6 +41,11 @@ namespace SmartphoneCoverShop
                     WHERE ShopID = " + shopId;
                 dgvOffers.DataSource = da.ExecuteQueryTable(query);
             }
+        }
+
+                private void cmbFilterStatus_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            LoadOffers();
         }
 
         private void btnSave_Click(object sender, EventArgs e)
@@ -140,3 +150,5 @@ namespace SmartphoneCoverShop
         }
     }
 }
+
+

@@ -4,6 +4,8 @@ namespace SmartphoneCoverShop
     {
         private System.ComponentModel.IContainer components = null;
         private System.Windows.Forms.Label lblTitle;
+                private System.Windows.Forms.ComboBox cmbFilterCategory;
+        private System.Windows.Forms.Label lblFilterCategory;
         private System.Windows.Forms.DataGridView dgvProducts;
         private System.Windows.Forms.Label lblProductName;
         private System.Windows.Forms.TextBox txtProductName;
@@ -36,6 +38,8 @@ namespace SmartphoneCoverShop
         private void InitializeComponent()
         {
             this.lblTitle = new System.Windows.Forms.Label();
+                        this.cmbFilterCategory = new System.Windows.Forms.ComboBox();
+            this.lblFilterCategory = new System.Windows.Forms.Label();
             this.dgvProducts = new System.Windows.Forms.DataGridView();
             this.lblProductName = new System.Windows.Forms.Label();
             this.txtProductName = new System.Windows.Forms.TextBox();
@@ -83,6 +87,20 @@ namespace SmartphoneCoverShop
             // 
             // lblSearch
             // 
+                        // lblFilterCategory
+            this.lblFilterCategory.AutoSize = true;
+            this.lblFilterCategory.Location = new System.Drawing.Point(500, 35);
+            this.lblFilterCategory.Name = "lblFilterCategory";
+            this.lblFilterCategory.Size = new System.Drawing.Size(60, 17);
+            this.lblFilterCategory.TabIndex = 21;
+            this.lblFilterCategory.Text = "Filter Category:";
+            // cmbFilterCategory
+            this.cmbFilterCategory.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbFilterCategory.Location = new System.Drawing.Point(590, 30);
+            this.cmbFilterCategory.Name = "cmbFilterCategory";
+            this.cmbFilterCategory.Size = new System.Drawing.Size(150, 25);
+            this.cmbFilterCategory.TabIndex = 22;
+            this.cmbFilterCategory.SelectedIndexChanged += new System.EventHandler(this.cmbFilterCategory_SelectedIndexChanged);
             this.lblSearch.AutoSize = true;
             this.lblSearch.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.lblSearch.Location = new System.Drawing.Point(350, 30);
@@ -294,6 +312,8 @@ namespace SmartphoneCoverShop
             this.Controls.Add(this.lblProductName);
             this.Controls.Add(this.txtProductID);
             this.Controls.Add(this.txtSearch);
+                        this.Controls.Add(this.cmbFilterCategory);
+            this.Controls.Add(this.lblFilterCategory);
             this.Controls.Add(this.lblSearch);
             this.Controls.Add(this.dgvProducts);
             this.Controls.Add(this.lblTitle);
@@ -309,4 +329,6 @@ namespace SmartphoneCoverShop
         }
     }
 }
+
+
 

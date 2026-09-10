@@ -107,6 +107,22 @@ namespace SmartphoneCoverShop
             this.lblCoupons.TabIndex = 6;
             this.lblCoupons.Text = "Available Coupons";
             
+            // lblShopFilter
+            this.lblShopFilter = new System.Windows.Forms.Label();
+            this.lblShopFilter.AutoSize = true;
+            this.lblShopFilter.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.lblShopFilter.Location = new System.Drawing.Point(350, 222);
+            this.lblShopFilter.Name = "lblShopFilter";
+            this.lblShopFilter.Size = new System.Drawing.Size(80, 15);
+            this.lblShopFilter.Text = "Filter Shop:";
+
+            // cmbShopFilter
+            this.cmbShopFilter = new System.Windows.Forms.ComboBox();
+            this.cmbShopFilter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbShopFilter.Location = new System.Drawing.Point(430, 220);
+            this.cmbShopFilter.Name = "cmbShopFilter";
+            this.cmbShopFilter.Size = new System.Drawing.Size(150, 23);
+            
             // 
             // dgvCoupons
             // 
@@ -144,6 +160,8 @@ namespace SmartphoneCoverShop
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(620, 480);
+            this.Controls.Add(this.cmbShopFilter);
+            this.Controls.Add(this.lblShopFilter);
             this.Controls.Add(this.dgvCoupons);
             this.Controls.Add(this.lblCoupons);
             this.Controls.Add(this.btnLogout);
@@ -173,5 +191,7 @@ namespace SmartphoneCoverShop
         private System.Windows.Forms.Button btnLogout;
         private System.Windows.Forms.Label lblCoupons;
         private System.Windows.Forms.DataGridView dgvCoupons;
+        private System.Windows.Forms.ComboBox cmbShopFilter;
+        private System.Windows.Forms.Label lblShopFilter;
     }
 }
