@@ -28,6 +28,8 @@ namespace SmartphoneCoverShop
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnClear = new System.Windows.Forms.Button();
             this.btnClose = new System.Windows.Forms.Button();
+                        this.cmbFilterStatus = new System.Windows.Forms.ComboBox();
+            this.lblFilterStatus = new System.Windows.Forms.Label();
             this.dgvOffers = new System.Windows.Forms.DataGridView();
             ((System.ComponentModel.ISupportInitialize)(this.dgvOffers)).BeginInit();
             this.SuspendLayout();
@@ -107,6 +109,20 @@ namespace SmartphoneCoverShop
             this.btnDelete.TabIndex = 16;
             this.btnDelete.Text = "Delete";
             this.btnDelete.UseVisualStyleBackColor = false;
+            // lblFilterStatus
+            this.lblFilterStatus.AutoSize = true;
+            this.lblFilterStatus.Location = new System.Drawing.Point(500, 105);
+            this.lblFilterStatus.Name = "lblFilterStatus";
+            this.lblFilterStatus.Size = new System.Drawing.Size(60, 17);
+            this.lblFilterStatus.TabIndex = 21;
+            this.lblFilterStatus.Text = "Filter Status:";
+            // cmbFilterStatus
+            this.cmbFilterStatus.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbFilterStatus.Location = new System.Drawing.Point(590, 100);
+            this.cmbFilterStatus.Name = "cmbFilterStatus";
+            this.cmbFilterStatus.Size = new System.Drawing.Size(150, 25);
+            this.cmbFilterStatus.TabIndex = 22;
+            this.cmbFilterStatus.SelectedIndexChanged += new System.EventHandler(this.cmbFilterStatus_SelectedIndexChanged);
             this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             
             // btnClear
@@ -147,6 +163,8 @@ namespace SmartphoneCoverShop
             this.Controls.Add(this.dgvOffers);
             this.Controls.Add(this.btnClose);
             this.Controls.Add(this.btnClear);
+                        this.Controls.Add(this.cmbFilterStatus);
+            this.Controls.Add(this.lblFilterStatus);
             this.Controls.Add(this.btnDelete);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.cmbStatus);
@@ -180,6 +198,9 @@ namespace SmartphoneCoverShop
         private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.Button btnClear;
         private System.Windows.Forms.Button btnClose;
+                private System.Windows.Forms.ComboBox cmbFilterStatus;
+        private System.Windows.Forms.Label lblFilterStatus;
         private System.Windows.Forms.DataGridView dgvOffers;
     }
 }
+
