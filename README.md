@@ -4,71 +4,134 @@ A multi-role Windows Forms desktop application built on **.NET Framework 4.7.2**
 
 ---
 
-## 🗄️ Database Setup
+## Team Members
 
-The database script is located at [`Database/SetupDatabase.sql`](file:///C:/Users/Rianul%20Amin%20Rian/Desktop/smartphone-cover-shop/Database/SetupDatabase.sql).
-
-### `Users` Table Schema
-
-| Column | Data Type | Constraint | Description |
-| :--- | :--- | :--- | :--- |
-| `UserID` | `INT IDENTITY` | PK | Unique user identifier |
-| `FullName` | `VARCHAR(100)` | NOT NULL | User's full name |
-| `Email` | `VARCHAR(100)` | UNIQUE, NOT NULL | Login email address |
-| `Password` | `VARCHAR(255)` | NOT NULL | User password |
-| `UserType` | `VARCHAR(20)` | NOT NULL | System role: `super_admin`, `admin`, or `customer` |
-| `Phone` | `VARCHAR(15)` | NULL | User contact number |
-| `CreatedAt` | `DATETIME` | DEFAULT GETDATE() | Account creation date and time |
-| `Status` | `INT` | NOT NULL (1 = active, 0 = inactive) | Account status |
+| Name | Student ID | Contribution |
+| :--- | :--- | :--- |
+| Nahiyan | 10001 | Customer Dashboard, UI/UX, Cart & Checkout |
+| Zarif | 10002 | Admin Dashboard, Product Management, Offers |
+| Mashruf | 10003 | Super Admin Dashboard, Database Schema, User Roles |
 
 ---
 
-## 🔑 Pre-Seeded Test Accounts
+## Diagrams
+
+### SQL Schema Diagram
+
+```mermaid
+erDiagram
+    Users ||--o{ Orders : "places"
+    Users ||--o{ Reviews : "writes"
+    Shops ||--o{ Products : "sells"
+    Products ||--o{ Reviews : "has"
+    Categories ||--o{ Products : "categorizes"
+    Shops ||--o{ Offers : "creates"
+    Orders ||--|{ OrderItems : "contains"
+    Products ||--o{ OrderItems : "in"
+    Orders ||--o| Payments : "has"
+
+    Users {
+        int UserID PK
+        string FullName
+        string Email
+        string Password
+        string UserType
+        string Phone
+        int Status
+    }
+    Shops {
+        int ShopID PK
+        int OwnerID FK
+        string ShopName
+        int Status
+    }
+    Products {
+        int ProductID PK
+        int ShopID FK
+        int CategoryID FK
+        string ProductName
+        decimal Price
+        int StockQuantity
+    }
+    Orders {
+        int OrderID PK
+        int CustomerID FK
+        decimal TotalAmount
+        string PaymentMethod
+    }
+    OrderItems {
+        int OrderID FK
+        int ProductID FK
+        int Quantity
+    }
+```
+
+### UI Navigation Diagram
+
+```mermaid
+graph TD
+    Login[Login] -->|super_admin| SAD[Super Admin Dashboard]
+    Login -->|admin| AD[Shop Owner Dashboard]
+    Login -->|customer| CD[Customer Dashboard]
+    Login --> Register[Registration]
+
+    SAD -->|Manage| MU[Manage Users]
+    SAD -->|Manage| MSO[Manage Shop Owners]
+    SAD -->|Manage| MR[Manage Reviews]
+
+    AD -->|Manage| MP[Manage Products]
+    AD -->|Manage| MC[Manage Categories]
+    AD -->|Manage| MO[Manage Offers]
+    AD -->|Manage| MSP[Shop Profile]
+
+    CD -->|Shop| BP[Browse Products]
+    CD -->|View| OH[Order History]
+    BP -->|Click| PD[Product Details]
+    BP -->|Add| Cart[Cart]
+    PD -->|Add| Cart
+    Cart --> Checkout[Checkout]
+```
+
+---
+
+## Screenshots
+
+### Core
+![Login Screen](docs/screenshots/01-login.png)
+![Registration Screen](docs/screenshots/02-register.png)
+
+### Customer Portal
+![Customer Dashboard](docs/screenshots/03-customer-dashboard.png)
+![Browse Products](docs/screenshots/04-browse-products.png)
+![Product Details](docs/screenshots/05-product-details.png)
+![Customer Cart](docs/screenshots/06-customer-cart.png)
+![Checkout](docs/screenshots/07-checkout.png)
+![Order History](docs/screenshots/08-order-history.png)
+
+### Shop Owner (Admin) Portal
+![Admin Dashboard](docs/screenshots/09-admin-dashboard.png)
+![Manage Products](docs/screenshots/10-manage-products.png)
+![Manage Offers](docs/screenshots/11-manage-offers.png)
+![Manage Categories](docs/screenshots/12-manage-categories.png)
+![Manage Shop Profile](docs/screenshots/13-manage-shop-profile.png)
+
+### Super Admin Portal
+![Manage Shop Owners](docs/screenshots/15-manage-shop-owners.png)
+![Manage Users](docs/screenshots/16-manage-users.png)
+![Manage Reviews](docs/screenshots/17-manage-reviews.png)
+
+---
+
+## Database Setup
+
+The database script is located at [`dbo.Table.sql`](dbo.Table.sql) and the dummy data seed is in [`seed_dummy_data.sql`](seed_dummy_data.sql).
+
+---
+
+## Pre-Seeded Test Accounts
 
 | Role | Email | Password | Role Code |
 | :--- | :--- | :--- | :--- |
 | **Super Admin** | `superadmin@covershop.com` | `admin123` | `super_admin` |
 | **Shop Owner** | `shopowner@covershop.com` | `owner123` | `admin` |
 | **Customer** | `customer@covershop.com` | `customer123` | `customer` |
-
----
-
-## 🚀 Features Implemented
-
-1. **Authentication System**:
-   - **Login Form (`frmLogin`)**: Clean flat UI, parameterized SQL queries, password toggle, active status check (`Status == 1`), and automatic role-based routing.
-   - **Registration Form (`frmRegister`)**: Full name, email, phone number, account type (`Customer` / `Shop Owner (Admin)`), password matching, and validation.
-2. **Role-Based Routing to Empty Dashboards**:
-   - `super_admin` ➔ [`frmSuperAdminDashboard`](file:///C:/Users/Rianul%20Amin%20Rian/Desktop/smartphone-cover-shop/SmartphoneCoverShop/Forms/frmSuperAdminDashboard.cs)
-   - `admin` (Shop Owner) ➔ [`frmAdminDashboard`](file:///C:/Users/Rianul%20Amin%20Rian/Desktop/smartphone-cover-shop/SmartphoneCoverShop/Forms/frmAdminDashboard.cs)
-   - `customer` ➔ [`frmCustomerDashboard`](file:///C:/Users/Rianul%20Amin%20Rian/Desktop/smartphone-cover-shop/SmartphoneCoverShop/Forms/frmCustomerDashboard.cs)
-3. **Session Management**:
-   - User state maintained through [`UserSession`](file:///C:/Users/Rianul%20Amin%20Rian/Desktop/smartphone-cover-shop/SmartphoneCoverShop/Services/UserSession.cs) with full logout support returning to [`frmLogin`](file:///C:/Users/Rianul%20Amin%20Rian/Desktop/smartphone-cover-shop/SmartphoneCoverShop/Forms/frmLogin.cs).
-
----
-
-## 📂 Project Structure
-
-```
-smartphone-cover-shop/
-├── Database/
-│   └── SetupDatabase.sql
-├── SmartphoneCoverShop/
-│   ├── App.config
-│   ├── Program.cs
-│   ├── Data/
-│   │   └── DbHelper.cs
-│   ├── Models/
-│   │   └── User.cs
-│   ├── Services/
-│   │   ├── AuthService.cs
-│   │   └── UserSession.cs
-│   ├── Forms/
-│   │   ├── frmLogin.cs / frmLogin.Designer.cs
-│   │   ├── frmRegister.cs / frmRegister.Designer.cs
-│   │   ├── frmSuperAdminDashboard.cs / frmSuperAdminDashboard.Designer.cs
-│   │   ├── frmAdminDashboard.cs / frmAdminDashboard.Designer.cs
-│   │   └── frmCustomerDashboard.cs / frmCustomerDashboard.Designer.cs
-│   └── SmartphoneCoverShop.csproj
-└── SmartphoneCoverShop.sln
-```

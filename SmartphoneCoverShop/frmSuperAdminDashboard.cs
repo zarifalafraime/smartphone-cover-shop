@@ -77,7 +77,7 @@ namespace SmartphoneCoverShop
                 using (DataAccess da = new DataAccess())
                 {
                     // Calculate Total Sales
-                    string salesQuery = "SELECT SUM(TotalAmount) FROM Orders WHERE Status != 'Cancelled'";
+                    string salesQuery = "SELECT SUM(TotalAmount) FROM Orders";
                     DataTable dtSales = da.ExecuteQueryTable(salesQuery);
                     
                     decimal totalSales = 0;
@@ -109,7 +109,7 @@ namespace SmartphoneCoverShop
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error loading dashboard stats: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Console.WriteLine("Error loading dashboard stats: " + ex.Message);
             }
         }
     }
