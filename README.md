@@ -124,7 +124,7 @@ graph TD
 
 ## Database Setup
 
-The database script is located at [`dbo.Table.sql`](dbo.Table.sql) and the dummy data seed is in [`seed_dummy_data.sql`](seed_dummy_data.sql).
+The complete database schema, dummy data, and testing queries are all located in a single unified script: [`dbo.Table.sql`](dbo.Table.sql).
 
 ---
 
