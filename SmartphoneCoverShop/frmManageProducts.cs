@@ -36,19 +36,32 @@ namespace SmartphoneCoverShop
             }
         }
 
-        private void LoadCategories()
+                private void LoadCategories()
         {
             using (DataAccess da = new DataAccess())
             {
-                string query = "SELECT CategoryID, CategoryName FROM Categories";
-                DataTable dt = da.ExecuteQueryTable(query);
+                DataTable dt = da.ExecuteQueryTable("SELECT CategoryID, CategoryName FROM Categories");
+                
+                // For main form dropdown
                 cmbCategory.DataSource = dt;
                 cmbCategory.DisplayMember = "CategoryName";
                 cmbCategory.ValueMember = "CategoryID";
+                
+                // For filter dropdown
+                DataTable dtFilter = dt.Copy();
+                DataRow allRow = dtFilter.NewRow();
+                allRow["CategoryID"] = 0;
+                allRow["CategoryName"] = "All Categories";
+                dtFilter.Rows.InsertAt(allRow, 0);
+                
+                cmbFilterCategory.DataSource = dtFilter;
+                cmbFilterCategory.DisplayMember = "CategoryName";
+                cmbFilterCategory.ValueMember = "CategoryID";
+                cmbFilterCategory.SelectedIndex = 0;
             }
         }
 
-        private void LoadProducts(string search)
+                private void LoadProducts(string search)
         {
             if (shopId == 0) return;
 
@@ -64,24 +77,37 @@ namespace SmartphoneCoverShop
                         p.StockQuantity
                     FROM Products p
                     INNER JOIN Categories c ON p.CategoryID = c.CategoryID
-                    WHERE p.ShopID = @ShopID";
+                    WHERE p.ShopID = @ShopID
+                ";
 
                 if (!string.IsNullOrEmpty(search))
                 {
                     query += " AND (p.ProductName LIKE @Search OR p.Description LIKE @Search)";
                 }
 
-                da.Sqlcom = new SqlCommand(query, da.Sqlcon);
+                if (cmbFilterCategory.SelectedValue != null && cmbFilterCategory.SelectedValue is int catId && catId > 0)
+                {
+                    query += " AND p.CategoryID = @CatID";
+                }
+
+                da.Sqlcom.CommandText = query;
                 da.Sqlcom.Parameters.AddWithValue("@ShopID", shopId);
                 
                 if (!string.IsNullOrEmpty(search))
                 {
                     da.Sqlcom.Parameters.AddWithValue("@Search", "%" + search + "%");
                 }
+                
+                if (cmbFilterCategory.SelectedValue != null && cmbFilterCategory.SelectedValue is int cid && cid > 0)
+                {
+                    da.Sqlcom.Parameters.AddWithValue("@CatID", cid);
+                }
 
-                SqlDataAdapter adapter = new SqlDataAdapter(da.Sqlcom);
                 DataTable dt = new DataTable();
-                adapter.Fill(dt);
+                using (System.Data.SqlClient.SqlDataAdapter adapter = new System.Data.SqlClient.SqlDataAdapter(da.Sqlcom))
+                {
+                    adapter.Fill(dt);
+                }
                 dgvProducts.DataSource = dt;
             }
         }
@@ -198,6 +224,14 @@ namespace SmartphoneCoverShop
             }
         }
 
+                private void cmbFilterCategory_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (shopId != 0 && cmbFilterCategory.SelectedValue != null)
+            {
+                LoadProducts(txtSearch.Text.Trim());
+            }
+        }
+
         private void btnSearch_Click(object sender, EventArgs e)
         {
             LoadProducts(txtSearch.Text.Trim());
@@ -241,3 +275,4 @@ namespace SmartphoneCoverShop
         }
     }
 }
+
