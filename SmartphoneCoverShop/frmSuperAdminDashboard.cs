@@ -77,7 +77,7 @@ namespace SmartphoneCoverShop
                 using (DataAccess da = new DataAccess())
                 {
                     // Calculate Total Sales
-                    string salesQuery = "SELECT SUM(TotalAmount) FROM Orders WHERE Status != 'Cancelled'";
+                    string salesQuery = "SELECT SUM(TotalAmount) FROM Orders";
                     DataTable dtSales = da.ExecuteQueryTable(salesQuery);
                     
                     decimal totalSales = 0;

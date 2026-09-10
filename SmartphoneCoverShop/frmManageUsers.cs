@@ -9,9 +9,9 @@ namespace SmartphoneCoverShop
     {
         private DataGridView dgvUsers;
         private TextBox txtFullName, txtEmail, txtPassword, txtSearch;
-        private ComboBox cmbUserType, cmbStatus;
+        private ComboBox cmbUserType, cmbStatus, cmbStatusFilter;
         private Button btnAdd, btnUpdate, btnDelete, btnClear;
-        private Label lblName, lblEmail, lblPassword, lblType, lblStatus, lblSearch;
+        private Label lblName, lblEmail, lblPassword, lblType, lblStatus, lblSearch, lblStatusFilter;
         private int selectedId = 0;
 
         public frmManageUsers()
@@ -25,24 +25,22 @@ namespace SmartphoneCoverShop
             this.dgvUsers = new DataGridView();
             this.txtFullName = new TextBox();
             this.txtEmail = new TextBox();
-            
             this.txtPassword = new TextBox();
             this.txtSearch = new TextBox();
             this.cmbUserType = new ComboBox();
             this.cmbStatus = new ComboBox();
-            
+            this.cmbStatusFilter = new ComboBox();
             this.btnAdd = new Button();
             this.btnUpdate = new Button();
             this.btnDelete = new Button();
             this.btnClear = new Button();
-            
             this.lblName = new Label();
             this.lblEmail = new Label();
-            
             this.lblPassword = new Label();
             this.lblType = new Label();
             this.lblStatus = new Label();
             this.lblSearch = new Label();
+            this.lblStatusFilter = new Label();
 
             ((System.ComponentModel.ISupportInitialize)(this.dgvUsers)).BeginInit();
             this.SuspendLayout();
@@ -69,14 +67,16 @@ namespace SmartphoneCoverShop
             this.lblSearch.Location = new Point(20, 180);
             this.lblSearch.Width = 120;
 
+            this.lblStatusFilter.Text = "Filter Status:";
+            this.lblStatusFilter.Location = new Point(430, 180);
+            this.lblStatusFilter.Width = 80;
+
             // Inputs
             this.txtFullName.Location = new Point(100, 17);
             this.txtFullName.Width = 180;
 
             this.txtEmail.Location = new Point(100, 52);
             this.txtEmail.Width = 180;
-
-            
 
             this.txtPassword.Location = new Point(400, 17);
             this.txtPassword.Width = 180;
@@ -94,6 +94,13 @@ namespace SmartphoneCoverShop
             this.txtSearch.Location = new Point(150, 177);
             this.txtSearch.Width = 250;
             this.txtSearch.TextChanged += new EventHandler(this.txtSearch_TextChanged);
+
+            this.cmbStatusFilter.Location = new Point(515, 177);
+            this.cmbStatusFilter.Width = 150;
+            this.cmbStatusFilter.DropDownStyle = ComboBoxStyle.DropDownList;
+            this.cmbStatusFilter.Items.AddRange(new string[] { "All", "Active (1)", "Inactive (0)", "Pending (2)" });
+            this.cmbStatusFilter.SelectedIndex = 0;
+            this.cmbStatusFilter.SelectedIndexChanged += new EventHandler(this.cmbStatusFilter_SelectedIndexChanged);
 
             // Buttons
             this.btnAdd.Text = "Add";
@@ -154,6 +161,8 @@ namespace SmartphoneCoverShop
             this.Controls.Add(cmbStatus);
             this.Controls.Add(lblSearch);
             this.Controls.Add(txtSearch);
+            this.Controls.Add(lblStatusFilter);
+            this.Controls.Add(cmbStatusFilter);
             this.Controls.Add(btnAdd);
             this.Controls.Add(btnUpdate);
             this.Controls.Add(btnDelete);
@@ -171,12 +180,20 @@ namespace SmartphoneCoverShop
             {
                 using (DataAccess da = new DataAccess())
                 {
-                    string query = "SELECT UserID, FullName, Email, Password, UserType, Status, CreatedAt FROM Users";
+                    string query = "SELECT UserID, FullName, Email, Password, UserType, Status, CreatedAt FROM Users WHERE 1=1";
+
+                    // Status filter
+                    if (cmbStatusFilter.SelectedIndex == 1) query += " AND Status = 1";
+                    else if (cmbStatusFilter.SelectedIndex == 2) query += " AND Status = 0";
+                    else if (cmbStatusFilter.SelectedIndex == 3) query += " AND Status = 2";
+
+                    // Search filter
                     if (!string.IsNullOrEmpty(searchTerm))
                     {
                         string safeTerm = searchTerm.Replace("'", "''");
-                        query += string.Format(" WHERE FullName LIKE '%{0}%' OR Email LIKE '%{0}%'", safeTerm);
+                        query += string.Format(" AND (FullName LIKE '%{0}%' OR Email LIKE '%{0}%')", safeTerm);
                     }
+
                     DataTable dt = da.ExecuteQueryTable(query);
                     dgvUsers.DataSource = dt;
                 }
@@ -188,6 +205,11 @@ namespace SmartphoneCoverShop
         }
 
         private void txtSearch_TextChanged(object sender, EventArgs e)
+        {
+            LoadData(txtSearch.Text);
+        }
+
+        private void cmbStatusFilter_SelectedIndexChanged(object sender, EventArgs e)
         {
             LoadData(txtSearch.Text);
         }
