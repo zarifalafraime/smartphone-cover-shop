@@ -11,6 +11,8 @@ namespace SmartphoneCoverShop
         private Label lblTitle;
         private DataGridView dgvOrders;
         private Button btnClose;
+        private ComboBox cmbPaymentMethod;
+        private Label lblPaymentMethod;
 
         public frmOrderHistory(int customerId)
         {
@@ -23,6 +25,8 @@ namespace SmartphoneCoverShop
             this.lblTitle = new Label();
             this.dgvOrders = new DataGridView();
             this.btnClose = new Button();
+            this.cmbPaymentMethod = new ComboBox();
+            this.lblPaymentMethod = new Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvOrders)).BeginInit();
             this.SuspendLayout();
             
@@ -30,6 +34,18 @@ namespace SmartphoneCoverShop
             this.lblTitle.Font = new Font("Segoe UI", 16F, FontStyle.Bold);
             this.lblTitle.Location = new Point(20, 20);
             this.lblTitle.Text = "Order History";
+
+            this.lblPaymentMethod.AutoSize = true;
+            this.lblPaymentMethod.Location = new Point(480, 25);
+            this.lblPaymentMethod.Text = "Filter by Payment:";
+            this.lblPaymentMethod.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+
+            this.cmbPaymentMethod.Location = new Point(600, 22);
+            this.cmbPaymentMethod.Size = new Size(150, 25);
+            this.cmbPaymentMethod.DropDownStyle = ComboBoxStyle.DropDownList;
+            this.cmbPaymentMethod.Items.AddRange(new object[] { "All", "Card", "Cash on Delivery", "DummyCard" });
+            this.cmbPaymentMethod.SelectedIndex = 0;
+            this.cmbPaymentMethod.SelectedIndexChanged += new EventHandler(this.cmbPaymentMethod_SelectedIndexChanged);
             
             this.dgvOrders.AllowUserToAddRows = false;
             this.dgvOrders.AllowUserToDeleteRows = false;
@@ -66,6 +82,8 @@ namespace SmartphoneCoverShop
             this.AutoScaleMode = AutoScaleMode.Font;
             this.BackColor = Color.White;
             this.ClientSize = new Size(784, 451);
+            this.Controls.Add(this.cmbPaymentMethod);
+            this.Controls.Add(this.lblPaymentMethod);
             this.Controls.Add(this.btnClose);
             this.Controls.Add(this.dgvOrders);
             this.Controls.Add(this.lblTitle);
@@ -80,10 +98,10 @@ namespace SmartphoneCoverShop
 
         private void frmOrderHistory_Load(object sender, EventArgs e)
         {
-            LoadOrders();
+            LoadOrders("All");
         }
 
-        private void LoadOrders()
+        private void LoadOrders(string paymentFilter)
         {
             DataAccess da = new DataAccess();
             // Seed a dummy order if none exists for this dummy requirement
@@ -93,8 +111,23 @@ namespace SmartphoneCoverShop
                 da.ExecuteDMLQuery("INSERT INTO Orders (CustomerID, OrderDate, TotalAmount, PaymentMethod) VALUES (" + customerId + ", GETDATE(), 599.99, 'DummyCard')");
             }
             
-            DataTable dt = da.ExecuteQueryTable("SELECT OrderID, OrderDate, TotalAmount, PaymentMethod FROM Orders WHERE CustomerID = " + customerId + " ORDER BY OrderDate DESC");
+            string query = "SELECT OrderID, OrderDate, TotalAmount, PaymentMethod FROM Orders WHERE CustomerID = " + customerId;
+            if (paymentFilter != "All")
+            {
+                query += " AND PaymentMethod = '" + paymentFilter.Replace("'", "''") + "'";
+            }
+            query += " ORDER BY OrderDate DESC";
+
+            DataTable dt = da.ExecuteQueryTable(query);
             dgvOrders.DataSource = dt;
+        }
+
+        private void cmbPaymentMethod_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cmbPaymentMethod.SelectedItem != null)
+            {
+                LoadOrders(cmbPaymentMethod.SelectedItem.ToString());
+            }
         }
 
         private void btnClose_Click(object sender, EventArgs e)

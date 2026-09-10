@@ -81,7 +81,8 @@ namespace SmartphoneCoverShop
             this.btnAddToCart.Click += new EventHandler(this.btnAddToCart_Click);
 
             Label lblCoupons = new Label();
-            lblCoupons.AutoSize = true;
+            lblCoupons.AutoSize = false;
+            lblCoupons.Size = new Size(380, 40);
             lblCoupons.ForeColor = Color.FromArgb(47, 126, 94);
             lblCoupons.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             lblCoupons.Location = new Point(150, 190);
