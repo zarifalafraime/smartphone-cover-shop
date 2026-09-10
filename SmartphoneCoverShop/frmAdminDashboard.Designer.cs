@@ -135,6 +135,26 @@ namespace SmartphoneCoverShop
             this.lblTotalRevenue.Size = new System.Drawing.Size(166, 21);
             this.lblTotalRevenue.TabIndex = 3;
             this.lblTotalRevenue.Text = "Total Revenue: $0.00";
+            
+            // lblTotalOrders
+            this.lblTotalOrders = new System.Windows.Forms.Label();
+            this.lblTotalOrders.AutoSize = true;
+            this.lblTotalOrders.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+            this.lblTotalOrders.ForeColor = System.Drawing.Color.Green;
+            this.lblTotalOrders.Location = new System.Drawing.Point(35, 130);
+            this.lblTotalOrders.Name = "lblTotalOrders";
+            this.lblTotalOrders.Size = new System.Drawing.Size(130, 21);
+            this.lblTotalOrders.Text = "Total Orders: 0";
+
+            // lblAvgRevenue
+            this.lblAvgRevenue = new System.Windows.Forms.Label();
+            this.lblAvgRevenue.AutoSize = true;
+            this.lblAvgRevenue.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+            this.lblAvgRevenue.ForeColor = System.Drawing.Color.Green;
+            this.lblAvgRevenue.Location = new System.Drawing.Point(220, 130);
+            this.lblAvgRevenue.Name = "lblAvgRevenue";
+            this.lblAvgRevenue.Size = new System.Drawing.Size(130, 21);
+            this.lblAvgRevenue.Text = "Avg Order: $0.00";
             // 
             // lblInventory
             // 
@@ -229,6 +249,8 @@ namespace SmartphoneCoverShop
             this.Controls.Add(this.btnManageProducts);
             this.Controls.Add(this.btnManageProfile);
             this.Controls.Add(this.lblTotalRevenue);
+            this.Controls.Add(this.lblTotalOrders);
+            this.Controls.Add(this.lblAvgRevenue);
             this.Controls.Add(this.lblTotalSold);
             this.Controls.Add(this.lblWelcome);
             this.Controls.Add(this.lblTitle);
@@ -250,6 +272,8 @@ namespace SmartphoneCoverShop
         private System.Windows.Forms.Label lblWelcome;
         private System.Windows.Forms.Label lblTotalSold;
         private System.Windows.Forms.Label lblTotalRevenue;
+        private System.Windows.Forms.Label lblTotalOrders;
+        private System.Windows.Forms.Label lblAvgRevenue;
         private System.Windows.Forms.Button btnManageProfile;
         private System.Windows.Forms.Button btnManageProducts;
         private System.Windows.Forms.Button btnManageCoupons;

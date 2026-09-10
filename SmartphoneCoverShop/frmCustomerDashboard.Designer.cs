@@ -46,6 +46,36 @@ namespace SmartphoneCoverShop
             this.lblWelcome.Size = new System.Drawing.Size(115, 21);
             this.lblWelcome.TabIndex = 1;
             this.lblWelcome.Text = "Welcome, User";
+
+            // lblTotalOrders
+            this.lblTotalOrders = new System.Windows.Forms.Label();
+            this.lblTotalOrders.AutoSize = true;
+            this.lblTotalOrders.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.lblTotalOrders.ForeColor = System.Drawing.Color.Green;
+            this.lblTotalOrders.Location = new System.Drawing.Point(37, 105);
+            this.lblTotalOrders.Name = "lblTotalOrders";
+            this.lblTotalOrders.Size = new System.Drawing.Size(89, 15);
+            this.lblTotalOrders.Text = "Total Orders: 0";
+
+            // lblTotalSpent
+            this.lblTotalSpent = new System.Windows.Forms.Label();
+            this.lblTotalSpent.AutoSize = true;
+            this.lblTotalSpent.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.lblTotalSpent.ForeColor = System.Drawing.Color.Green;
+            this.lblTotalSpent.Location = new System.Drawing.Point(180, 105);
+            this.lblTotalSpent.Name = "lblTotalSpent";
+            this.lblTotalSpent.Size = new System.Drawing.Size(107, 15);
+            this.lblTotalSpent.Text = "Total Spent: $0.00";
+
+            // lblAvgOrder
+            this.lblAvgOrder.AutoSize = true;
+            this.lblAvgOrder = new System.Windows.Forms.Label();
+            this.lblAvgOrder.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.lblAvgOrder.ForeColor = System.Drawing.Color.Green;
+            this.lblAvgOrder.Location = new System.Drawing.Point(340, 105);
+            this.lblAvgOrder.Name = "lblAvgOrder";
+            this.lblAvgOrder.Size = new System.Drawing.Size(102, 15);
+            this.lblAvgOrder.Text = "Avg Order: $0.00";
             
             // 
             // btnBrowseProducts
@@ -169,6 +199,9 @@ namespace SmartphoneCoverShop
             this.Controls.Add(this.btnMyCart);
             this.Controls.Add(this.btnBrowseProducts);
             this.Controls.Add(this.lblWelcome);
+            this.Controls.Add(this.lblTotalOrders);
+            this.Controls.Add(this.lblTotalSpent);
+            this.Controls.Add(this.lblAvgOrder);
             this.Controls.Add(this.lblTitle);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "frmCustomerDashboard";
@@ -193,5 +226,8 @@ namespace SmartphoneCoverShop
         private System.Windows.Forms.DataGridView dgvCoupons;
         private System.Windows.Forms.ComboBox cmbShopFilter;
         private System.Windows.Forms.Label lblShopFilter;
+        private System.Windows.Forms.Label lblTotalOrders;
+        private System.Windows.Forms.Label lblTotalSpent;
+        private System.Windows.Forms.Label lblAvgOrder;
     }
 }

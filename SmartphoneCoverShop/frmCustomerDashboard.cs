@@ -30,6 +30,40 @@ namespace SmartphoneCoverShop
             }
             LoadShopFilter();
             LoadCoupons("All");
+            LoadCustomerStats();
+        }
+
+        private void LoadCustomerStats()
+        {
+            try
+            {
+                using (DataAccess da = new DataAccess())
+                {
+                    string query = @"
+                        SELECT 
+                            ISNULL(COUNT(OrderID), 0) as TotalOrders,
+                            ISNULL(SUM(TotalAmount), 0) as TotalSpent,
+                            ISNULL(AVG(TotalAmount), 0) as AvgOrder
+                        FROM Orders 
+                        WHERE CustomerID = " + LoggedInUserId;
+                        
+                    System.Data.DataTable dt = da.ExecuteQueryTable(query);
+                    if (dt.Rows.Count > 0)
+                    {
+                        int totalOrders = Convert.ToInt32(dt.Rows[0]["TotalOrders"]);
+                        decimal totalSpent = Convert.ToDecimal(dt.Rows[0]["TotalSpent"]);
+                        decimal avgOrder = Convert.ToDecimal(dt.Rows[0]["AvgOrder"]);
+                        
+                        lblTotalOrders.Text = "Total Orders: " + totalOrders;
+                        lblTotalSpent.Text = "Total Spent: $" + totalSpent.ToString("0.00");
+                        lblAvgOrder.Text = "Avg Order: $" + avgOrder.ToString("0.00");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error loading stats: " + ex.Message);
+            }
         }
 
         private void LoadShopFilter()
