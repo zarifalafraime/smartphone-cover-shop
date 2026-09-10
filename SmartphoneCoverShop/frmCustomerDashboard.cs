@@ -28,15 +28,41 @@ namespace SmartphoneCoverShop
             {
                 lblWelcome.Text = "Welcome, " + LoggedInFullName;
             }
-            LoadCoupons();
+            LoadShopFilter();
+            LoadCoupons("All");
         }
 
-        private void LoadCoupons()
+        private void LoadShopFilter()
+        {
+            DataAccess da = new DataAccess();
+            System.Data.DataTable dt = da.ExecuteQueryTable("SELECT DISTINCT ShopName FROM Shops");
+            cmbShopFilter.Items.Add("All");
+            foreach (System.Data.DataRow row in dt.Rows)
+            {
+                cmbShopFilter.Items.Add(row["ShopName"].ToString());
+            }
+            cmbShopFilter.SelectedIndex = 0;
+            cmbShopFilter.SelectedIndexChanged += new EventHandler(this.cmbShopFilter_SelectedIndexChanged);
+        }
+
+        private void cmbShopFilter_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cmbShopFilter.SelectedItem != null)
+            {
+                LoadCoupons(cmbShopFilter.SelectedItem.ToString());
+            }
+        }
+
+        private void LoadCoupons(string shopFilter)
         {
             DataAccess da = new DataAccess();
             string query = "SELECT s.ShopName, o.OfferName AS 'Coupon Code', o.DiscountValue AS 'Discount (%)' " +
                            "FROM Offers o INNER JOIN Shops s ON o.ShopID = s.ShopID " +
                            "WHERE o.Status = 'Active'";
+            if (shopFilter != "All")
+            {
+                query += " AND s.ShopName = '" + shopFilter.Replace("'", "''") + "'";
+            }
             System.Data.DataTable dt = da.ExecuteQueryTable(query);
             
             dgvCoupons.DataSource = dt;
