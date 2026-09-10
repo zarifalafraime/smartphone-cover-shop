@@ -188,7 +188,7 @@ namespace SmartphoneCoverShop
             this.lblShopRatings.AutoSize = true;
             this.lblShopRatings.Font = new System.Drawing.Font("Nirmala UI", 14F, System.Drawing.FontStyle.Bold);
             this.lblShopRatings.Location = new System.Drawing.Point(20, 210);
-            this.lblShopRatings.Text = "All Shop Ratings";
+            this.lblShopRatings.Text = "Shop Analytics Report (Sales & Ratings)";
 
             // dgvShopRatings
             this.dgvShopRatings.Location = new System.Drawing.Point(20, 245);
