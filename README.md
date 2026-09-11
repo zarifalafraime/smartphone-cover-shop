@@ -177,7 +177,7 @@ graph TD
 
 ## Database Setup
 
-The complete database schema, dummy data, and testing queries are all located in a single unified script: [`dbo.Table.sql`](dbo.Table.sql).
+The complete database schema, dummy data, and testing queries are all located in a single unified script: [`Database/dbo.Table.sql`](Database/dbo.Table.sql).
 
 ---
 
