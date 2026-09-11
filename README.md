@@ -22,6 +22,9 @@ A multi-role Windows Forms desktop application built on **.NET Framework 4.7.2**
 
 ## Diagrams
 
+* 🗄️ **[View Full SQL Schema Diagram](docs/diagrams/SQL_Schema_Diagram.md)**
+* 🗺️ **[View UI Navigation Diagram](docs/diagrams/UI_Navigation_Diagram.md)**
+
 ### SQL Schema Diagram
 
 ```mermaid
