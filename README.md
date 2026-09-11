@@ -4,10 +4,9 @@ A multi-role Windows Forms desktop application built on **.NET Framework 4.7.2**
 
 ---
 
-## Project Documentation & Video
+## Project Documentation
 
 * 📄 **[Download / View the Final Project Report (PDF)](Project_Report.pdf)**
-* 🎥 **[Watch the Screen-Recorded Walkthrough Video](#)** *(Replace this `#` with your YouTube/Drive link)*
 
 ---
 
