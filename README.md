@@ -26,14 +26,17 @@ A multi-role Windows Forms desktop application built on **.NET Framework 4.7.2**
 
 ```mermaid
 erDiagram
+    Users ||--o{ Shops : "owns"
+    Users ||--o{ Cart : "adds to"
     Users ||--o{ Orders : "places"
     Users ||--o{ Reviews : "writes"
     Shops ||--o{ Products : "sells"
-    Products ||--o{ Reviews : "has"
-    Categories ||--o{ Products : "categorizes"
     Shops ||--o{ Offers : "creates"
-    Orders ||--|{ OrderItems : "contains"
+    Categories ||--o{ Products : "categorizes"
+    Products ||--o{ Cart : "in"
     Products ||--o{ OrderItems : "in"
+    Products ||--o{ Reviews : "has"
+    Orders ||--|{ OrderItems : "contains"
     Orders ||--o| Payments : "has"
 
     Users {
@@ -43,12 +46,19 @@ erDiagram
         string Password
         string UserType
         string Phone
+        datetime CreatedAt
         int Status
     }
     Shops {
         int ShopID PK
-        int OwnerID FK
+        int UserID FK
         string ShopName
+        string ShopDescription
+        int Status
+    }
+    Categories {
+        int CategoryID PK
+        string CategoryName
         int Status
     }
     Products {
@@ -56,19 +66,53 @@ erDiagram
         int ShopID FK
         int CategoryID FK
         string ProductName
+        string Description
         decimal Price
         int StockQuantity
+    }
+    Cart {
+        int CartID PK
+        int CustomerID FK
+        int ProductID FK
+        int Quantity
     }
     Orders {
         int OrderID PK
         int CustomerID FK
+        datetime OrderDate
         decimal TotalAmount
         string PaymentMethod
     }
     OrderItems {
+        int OrderItemID PK
         int OrderID FK
         int ProductID FK
         int Quantity
+        decimal UnitPrice
+        decimal Subtotal
+    }
+    Payments {
+        int PaymentID PK
+        int OrderID FK
+        string PaymentMethod
+        string TransactionID
+        decimal Amount
+        string PaymentStatus
+        datetime PaidAt
+    }
+    Reviews {
+        int ReviewID PK
+        int CustomerID FK
+        int ProductID FK
+        int Rating
+        string Comment
+    }
+    Offers {
+        int OfferID PK
+        int ShopID FK
+        string OfferName
+        decimal DiscountValue
+        string Status
     }
 ```
 
@@ -84,10 +128,10 @@ graph TD
     SAD -->|Manage| MU[Manage Users]
     SAD -->|Manage| MSO[Manage Shop Owners]
     SAD -->|Manage| MR[Manage Reviews]
+    SAD -->|Manage| MC[Manage Categories]
 
     AD -->|Manage| MP[Manage Products]
-    AD -->|Manage| MC[Manage Categories]
-    AD -->|Manage| MO[Manage Offers]
+    AD -->|Manage| MO[Manage Coupons]
     AD -->|Manage| MSP[Shop Profile]
 
     CD -->|Shop| BP[Browse Products]
