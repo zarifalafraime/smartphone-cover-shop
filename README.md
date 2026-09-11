@@ -4,19 +4,20 @@ A multi-role Windows Forms desktop application built on **.NET Framework 4.7.2**
 
 ---
 
-## Project Documentation
+## Project Documentation & Video
 
 * 📄 **[Download / View the Final Project Report (PDF)](Project_Report.pdf)**
+* 🎥 **[Watch the Screen-Recorded Walkthrough Video](#)** *(Replace this `#` with your YouTube/Drive link)*
 
 ---
 
 ## Team Members
 
-| Name | Student ID | Contribution |
-| :--- | :--- | :--- |
-| Nahiyan | 10001 | Customer Dashboard, UI/UX, Cart & Checkout |
-| Zarif | 10002 | Admin Dashboard, Product Management, Offers |
-| Mashruf | 10003 | Super Admin Dashboard, Database Schema, User Roles |
+| Serial | Name | Student ID | Contribution % | Contribution Details |
+| :--- | :--- | :--- | :--- | :--- |
+| 1 | Nahiyan | 10001 | 35% | Customer Dashboard, UI/UX, Cart & Checkout |
+| 2 | Zarif | 10002 | 35% | Admin Dashboard, Product Management, Offers |
+| 3 | Mashruf | 10003 | 30% | Super Admin Dashboard, Database Schema, User Roles |
 
 ---
 
@@ -175,9 +176,18 @@ graph TD
 
 ---
 
-## Database Setup
+## Database Setup & Connection String
 
-The complete database schema, dummy data, and testing queries are all located in a single unified script: [`Database/dbo.Table.sql`](Database/dbo.Table.sql).
+1. **Database Script:** The complete database schema, dummy data, and testing queries are all located in a single unified script: [`Database/dbo.Table.sql`](Database/dbo.Table.sql). Execute this in SQL Server Management Studio (SSMS) to create and seed the `SmartphoneCoverShopDB` database.
+2. **Connection String:** To run the project locally, open `SmartphoneCoverShop\App.config` and change the `Data Source` in the connection string to match your local SQL Server instance name (e.g., `.` or `.\SQLEXPRESS`).
+
+```xml
+<connectionStrings>
+    <add name="DefaultConnection" 
+         connectionString="Data Source=.;Initial Catalog=SmartphoneCoverShopDB;Integrated Security=True" 
+         providerName="System.Data.SqlClient" />
+</connectionStrings>
+```
 
 ---
 
