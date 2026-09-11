@@ -14,9 +14,9 @@ A multi-role Windows Forms desktop application built on **.NET Framework 4.7.2**
 
 | Serial | Name | Student ID | Contribution % | Contribution Details |
 | :--- | :--- | :--- | :--- | :--- |
-| 1 | Nahiyan | 10001 | 35% | Customer Dashboard, UI/UX, Cart & Checkout |
-| 2 | Zarif | 10002 | 35% | Admin Dashboard, Product Management, Offers |
-| 3 | Mashruf | 10003 | 30% | Super Admin Dashboard, Database Schema, User Roles |
+| 1 | Nahiyan | 24-58497-2 | 40% | Customer Dashboard, Shopping & Browsing, Cart & Checkout, Order Tracking, Documentation & Diagrams, Database Finalization |
+| 2 | Zarif | 21-44568-1 | 30% | Admin Dashboard, Product Management, Offers & Promotions, Shop Profile, Initial Setup |
+| 3 | Mashruf | 22-46073-1 | 30% | Super Admin Dashboard, User & Shop Management, Content Moderation, Database Architecture |
 
 ---
 
