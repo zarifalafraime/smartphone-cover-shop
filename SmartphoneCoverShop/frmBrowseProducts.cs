@@ -180,7 +180,8 @@ namespace SmartphoneCoverShop
         private void Filter_Changed(object sender, EventArgs e)
         {
             int catId = 0;
-            if (cmbCategory.SelectedValue != null && int.TryParse(cmbCategory.SelectedValue.ToString(), out int val))
+            int val;
+            if (cmbCategory.SelectedValue != null && int.TryParse(cmbCategory.SelectedValue.ToString(), out val))
             {
                 catId = val;
             }

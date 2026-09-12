@@ -308,6 +308,7 @@ namespace SmartphoneCoverShop
 
         private System.Windows.Forms.Label lblReviews;
         private System.Windows.Forms.DataGridView dgvReviews;
+        private System.Windows.Forms.Label lblAvgRevenue;
     }
 }
 

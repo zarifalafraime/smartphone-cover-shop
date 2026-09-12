@@ -55,7 +55,8 @@ namespace SmartphoneCoverShop
                 MessageBox.Show("Please enter a Coupon Code.");
                 return;
             }
-            if (!decimal.TryParse(txtDiscountValue.Text, out decimal discountValue) || discountValue <= 0 || discountValue > 100)
+            decimal discountValue;
+            if (!decimal.TryParse(txtDiscountValue.Text, out discountValue) || discountValue <= 0 || discountValue > 100)
             {
                 MessageBox.Show("Please enter a valid percentage between 1 and 100.");
                 return;

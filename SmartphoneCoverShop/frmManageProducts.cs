@@ -85,9 +85,13 @@ namespace SmartphoneCoverShop
                     query += " AND (p.ProductName LIKE @Search OR p.Description LIKE @Search)";
                 }
 
-                if (cmbFilterCategory.SelectedValue != null && cmbFilterCategory.SelectedValue is int catId && catId > 0)
+                if (cmbFilterCategory.SelectedValue != null && cmbFilterCategory.SelectedValue is int)
                 {
-                    query += " AND p.CategoryID = @CatID";
+                    int catId = (int)cmbFilterCategory.SelectedValue;
+                    if (catId > 0)
+                    {
+                        query += " AND p.CategoryID = @CatID";
+                    }
                 }
 
                 da.Sqlcom.CommandText = query;
@@ -98,9 +102,13 @@ namespace SmartphoneCoverShop
                     da.Sqlcom.Parameters.AddWithValue("@Search", "%" + search + "%");
                 }
                 
-                if (cmbFilterCategory.SelectedValue != null && cmbFilterCategory.SelectedValue is int cid && cid > 0)
+                if (cmbFilterCategory.SelectedValue != null && cmbFilterCategory.SelectedValue is int)
                 {
-                    da.Sqlcom.Parameters.AddWithValue("@CatID", cid);
+                    int cid = (int)cmbFilterCategory.SelectedValue;
+                    if (cid > 0)
+                    {
+                        da.Sqlcom.Parameters.AddWithValue("@CatID", cid);
+                    }
                 }
 
                 DataTable dt = new DataTable();
@@ -126,9 +134,11 @@ namespace SmartphoneCoverShop
                 return;
             }
 
+            decimal price;
+            int stock;
             if (string.IsNullOrWhiteSpace(txtProductName.Text) || 
-                !decimal.TryParse(txtPrice.Text, out decimal price) || 
-                !int.TryParse(txtStock.Text, out int stock))
+                !decimal.TryParse(txtPrice.Text, out price) || 
+                !int.TryParse(txtStock.Text, out stock))
             {
                 MessageBox.Show("Please enter valid product details, price, and stock quantity.");
                 return;
@@ -161,7 +171,9 @@ namespace SmartphoneCoverShop
                 return;
             }
 
-            if (!decimal.TryParse(txtPrice.Text, out decimal price) || !int.TryParse(txtStock.Text, out int stock))
+            decimal price;
+            int stock;
+            if (!decimal.TryParse(txtPrice.Text, out price) || !int.TryParse(txtStock.Text, out stock))
             {
                 MessageBox.Show("Please enter valid price and stock quantity.");
                 return;
