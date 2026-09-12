@@ -85,7 +85,7 @@ namespace SmartphoneCoverShop
                     query += " AND (p.ProductName LIKE @Search OR p.Description LIKE @Search)";
                 }
 
-                if (cmbFilterCategory.SelectedValue != null && cmbFilterCategory.SelectedValue is int catId && catId > 0)
+                if (cmbFilterCategory.SelectedValue != null && int.TryParse(cmbFilterCategory.SelectedValue.ToString(), out int catId) && catId > 0)
                 {
                     query += " AND p.CategoryID = @CatID";
                 }
@@ -98,7 +98,7 @@ namespace SmartphoneCoverShop
                     da.Sqlcom.Parameters.AddWithValue("@Search", "%" + search + "%");
                 }
                 
-                if (cmbFilterCategory.SelectedValue != null && cmbFilterCategory.SelectedValue is int cid && cid > 0)
+                if (cmbFilterCategory.SelectedValue != null && int.TryParse(cmbFilterCategory.SelectedValue.ToString(), out int cid) && cid > 0)
                 {
                     da.Sqlcom.Parameters.AddWithValue("@CatID", cid);
                 }

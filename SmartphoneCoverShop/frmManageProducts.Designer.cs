@@ -116,6 +116,7 @@ namespace SmartphoneCoverShop
             this.txtSearch.Name = "txtSearch";
             this.txtSearch.Size = new System.Drawing.Size(167, 25);
             this.txtSearch.TabIndex = 3;
+            this.txtSearch.TextChanged += new System.EventHandler(this.btnSearch_Click);
             
             // 
             // txtProductID

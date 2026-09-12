@@ -70,8 +70,7 @@ namespace SmartphoneCoverShop
                 SELECT 
                     ISNULL(COUNT(DISTINCT o.OrderID), 0) as TotalOrders,
                     ISNULL(SUM(oi.Quantity), 0) as TotalSold,
-                    ISNULL(SUM(oi.Subtotal), 0) as TotalRevenue,
-                    ISNULL(AVG(oi.Subtotal), 0) as AvgRevenue
+                    ISNULL(SUM(oi.Subtotal), 0) as TotalRevenue
                 FROM OrderItems oi
                 INNER JOIN Products p ON oi.ProductID = p.ProductID
                 INNER JOIN Orders o ON oi.OrderID = o.OrderID
@@ -83,17 +82,25 @@ namespace SmartphoneCoverShop
                 int totalOrders = Convert.ToInt32(dt.Rows[0]["TotalOrders"]);
                 int totalSold = Convert.ToInt32(dt.Rows[0]["TotalSold"]);
                 decimal totalRev = Convert.ToDecimal(dt.Rows[0]["TotalRevenue"]);
-                decimal avgRev = Convert.ToDecimal(dt.Rows[0]["AvgRevenue"]);
                 
                 lblTotalOrders.Text = "Total Orders: " + totalOrders;
                 lblTotalSold.Text = "Products Sold: " + totalSold;
                 lblTotalRevenue.Text = "Total Revenue: $" + totalRev.ToString("0.00");
-                lblAvgRevenue.Text = "Avg Item Rev: $" + avgRev.ToString("0.00");
             }
         }
 
         private void LoadInventory(DataAccess da)
         {
+            string stockFilter = "";
+            if (cmbFilterStock.SelectedIndex == 1)
+                stockFilter = " AND p.StockQuantity = 0";
+            else if (cmbFilterStock.SelectedIndex == 2)
+                stockFilter = " AND p.StockQuantity BETWEEN 1 AND 20";
+            else if (cmbFilterStock.SelectedIndex == 3)
+                stockFilter = " AND p.StockQuantity BETWEEN 21 AND 50";
+            else if (cmbFilterStock.SelectedIndex == 4)
+                stockFilter = " AND p.StockQuantity >= 51";
+
             string query = @"
                 SELECT 
                     p.ProductID, 
@@ -103,7 +110,7 @@ namespace SmartphoneCoverShop
                     p.StockQuantity 
                 FROM Products p
                 LEFT JOIN Categories c ON p.CategoryID = c.CategoryID
-                WHERE p.ShopID = " + shopId;
+                WHERE p.ShopID = " + shopId + stockFilter;
             dgvInventory.DataSource = da.ExecuteQueryTable(query);
         }
 

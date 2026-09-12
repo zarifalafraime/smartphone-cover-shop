@@ -147,17 +147,6 @@ namespace SmartphoneCoverShop
             this.lblTotalOrders.Size = new System.Drawing.Size(130, 21);
             this.lblTotalOrders.Text = "Total Orders: 0";
 
-            // lblAvgRevenue
-            this.lblAvgRevenue = new System.Windows.Forms.Label();
-            this.lblAvgRevenue.AutoSize = true;
-            this.lblAvgRevenue.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
-            this.lblAvgRevenue.ForeColor = System.Drawing.Color.Green;
-            this.lblAvgRevenue.Location = new System.Drawing.Point(220, 130);
-            this.lblAvgRevenue.Name = "lblAvgRevenue";
-            this.lblAvgRevenue.Size = new System.Drawing.Size(130, 21);
-            this.lblAvgRevenue.Text = "Avg Order: $0.00";
-            // 
-                        // lblTotalOrders
             this.lblTotalOrders.AutoSize = true;
             this.lblTotalOrders.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
             this.lblTotalOrders.ForeColor = System.Drawing.Color.Green;
