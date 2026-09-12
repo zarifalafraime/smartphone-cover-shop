@@ -85,13 +85,10 @@ namespace SmartphoneCoverShop
                     query += " AND (p.ProductName LIKE @Search OR p.Description LIKE @Search)";
                 }
 
-                if (cmbFilterCategory.SelectedValue != null && cmbFilterCategory.SelectedValue is int)
+                int catId = 0;
+                if (cmbFilterCategory.SelectedValue != null && int.TryParse(cmbFilterCategory.SelectedValue.ToString(), out catId) && catId > 0)
                 {
-                    int catId = (int)cmbFilterCategory.SelectedValue;
-                    if (catId > 0)
-                    {
-                        query += " AND p.CategoryID = @CatID";
-                    }
+                    query += " AND p.CategoryID = @CatID";
                 }
 
                 da.Sqlcom = new SqlCommand(query, da.Sqlcon);
@@ -102,13 +99,10 @@ namespace SmartphoneCoverShop
                     da.Sqlcom.Parameters.AddWithValue("@Search", "%" + search + "%");
                 }
                 
-                if (cmbFilterCategory.SelectedValue != null && cmbFilterCategory.SelectedValue is int)
+                int cid = 0;
+                if (cmbFilterCategory.SelectedValue != null && int.TryParse(cmbFilterCategory.SelectedValue.ToString(), out cid) && cid > 0)
                 {
-                    int cid = (int)cmbFilterCategory.SelectedValue;
-                    if (cid > 0)
-                    {
-                        da.Sqlcom.Parameters.AddWithValue("@CatID", cid);
-                    }
+                    da.Sqlcom.Parameters.AddWithValue("@CatID", cid);
                 }
 
                 DataTable dt = new DataTable();
