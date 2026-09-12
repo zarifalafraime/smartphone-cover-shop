@@ -171,6 +171,7 @@ namespace SmartphoneCoverShop
             this.cmbFilterStock.Name = "cmbFilterStock";
             this.cmbFilterStock.Size = new System.Drawing.Size(121, 21);
             this.cmbFilterStock.TabIndex = 14;
+            this.cmbFilterStock.SelectedIndexChanged += new System.EventHandler(this.cmbFilterStock_SelectedIndexChanged);
             // 
             // dgvInventory
             // 
