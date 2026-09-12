@@ -90,7 +90,7 @@ namespace SmartphoneCoverShop
                     query += " AND p.CategoryID = @CatID";
                 }
 
-                da.Sqlcom.CommandText = query;
+                da.Sqlcom = new SqlCommand(query, da.Sqlcon);
                 da.Sqlcom.Parameters.AddWithValue("@ShopID", shopId);
                 
                 if (!string.IsNullOrEmpty(search))
