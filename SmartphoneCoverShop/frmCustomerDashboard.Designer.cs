@@ -193,7 +193,6 @@ namespace SmartphoneCoverShop
             this.Controls.Add(this.lblWelcome);
             this.Controls.Add(this.lblTotalOrders);
             this.Controls.Add(this.lblTotalSpent);
-            this.Controls.Add(this.lblAvgOrder);
             this.Controls.Add(this.lblTitle);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "frmCustomerDashboard";
@@ -220,6 +219,5 @@ namespace SmartphoneCoverShop
         private System.Windows.Forms.Label lblShopFilter;
         private System.Windows.Forms.Label lblTotalOrders;
         private System.Windows.Forms.Label lblTotalSpent;
-        private System.Windows.Forms.Label lblAvgOrder;
     }
 }

@@ -42,8 +42,7 @@ namespace SmartphoneCoverShop
                     string query = @"
                         SELECT 
                             ISNULL(COUNT(OrderID), 0) as TotalOrders,
-                            ISNULL(SUM(TotalAmount), 0) as TotalSpent,
-                            ISNULL(AVG(TotalAmount), 0) as AvgOrder
+                            ISNULL(SUM(TotalAmount), 0) as TotalSpent
                         FROM Orders 
                         WHERE CustomerID = " + LoggedInUserId;
                         
@@ -52,11 +51,9 @@ namespace SmartphoneCoverShop
                     {
                         int totalOrders = Convert.ToInt32(dt.Rows[0]["TotalOrders"]);
                         decimal totalSpent = Convert.ToDecimal(dt.Rows[0]["TotalSpent"]);
-                        decimal avgOrder = Convert.ToDecimal(dt.Rows[0]["AvgOrder"]);
                         
                         lblTotalOrders.Text = "Total Orders: " + totalOrders;
                         lblTotalSpent.Text = "Total Spent: $" + totalSpent.ToString("0.00");
-                        lblAvgOrder.Text = "Avg Order: $" + avgOrder.ToString("0.00");
                     }
                 }
             }
